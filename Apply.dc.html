@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Apply for KVH Certification</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+html{scroll-behavior:smooth}
+body{margin:0;background:#FFFFFF;color:#0B1730;font-family:'Figtree',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#1D4F9C;text-decoration:none}
+a:hover{color:#0B1F44}
+input,select,textarea,button{font-family:inherit}
+img{max-width:100%}
+.kvh-burger{display:none!important}
+@media (max-width:979px){.kvh-nav,.kvh-find{display:none!important}.kvh-burger{display:inline-flex!important}.kvh-logo{height:34px!important}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</helmet>
+
+<header style="position:sticky;top:0;z-index:50;background:#FFFFFF;border-bottom:1px solid rgba(11,23,48,.08)">
+  <div style="max-width:1320px;margin:0 auto;padding:18px clamp(20px,4vw,48px);display:flex;align-items:center;gap:40px">
+    <a href="KVH Kosher v3.dc.html" aria-label="KVH Kosher home" style="display:block;flex:none;line-height:0">
+      <img class="kvh-logo" src="assets/kvh-logo.png" alt="KVH Kosher, Education, Communication, Certification" style="display:block;height:46px;width:auto;mix-blend-mode:multiply">
+    </a>
+    <nav class="kvh-nav" style="display:flex;gap:28px;flex:1;font-size:16px">
+      <sc-for list="{{ nav }}" as="n" hint-placeholder-count="5">
+        <a href="KVH Kosher v3.dc.html" style="color:#14213D;padding:8px 0;border-bottom:2px solid transparent" style-hover="color:#1D4F9C;border-bottom-color:#1D4F9C">{{ n }}</a>
+      </sc-for>
+    </nav>
+    <a class="kvh-find" href="Product-Search.dc.html" style="flex:none;border:1.5px solid #1D4F9C;color:#1D4F9C;font-size:16px;font-weight:500;padding:11px 18px;border-radius:4px" style-hover="background:#1D4F9C;color:#FFFFFF">Find a Product</a>
+    <button class="kvh-burger" onClick="{{ toggleMenu }}" aria-label="Menu" aria-expanded="{{ menuOpen }}" style="margin-left:auto;height:48px;padding:0 18px;background:#FFFFFF;border:1.5px solid #1D4F9C;border-radius:4px;cursor:pointer;font-size:15px;font-weight:500;color:#1D4F9C;display:inline-flex;align-items:center;gap:10px"><span aria-hidden="true" style="position:relative;display:block;width:18px;height:14px;flex:none">
+          <span style="position:absolute;left:0;width:18px;height:2px;border-radius:1px;background:currentColor;transition:top .3s ease,transform .3s ease;top:{{ bar1Top }};transform:{{ bar1Tr }}"></span>
+          <span style="position:absolute;left:0;top:6px;width:18px;height:2px;border-radius:1px;background:currentColor;transition:opacity .2s ease,transform .3s ease;opacity:{{ bar2Op }};transform:{{ bar2Tr }}"></span>
+          <span style="position:absolute;left:0;width:18px;height:2px;border-radius:1px;background:currentColor;transition:top .3s ease,transform .3s ease;top:{{ bar3Top }};transform:{{ bar3Tr }}"></span>
+        </span><span>{{ menuLabel }}</span></button>
+  </div>
+  <div style="display:grid;grid-template-rows:{{ panelRows }};visibility:{{ panelVis }};transition:grid-template-rows .38s cubic-bezier(.2,.7,.2,1),visibility .38s"><div style="overflow:hidden;min-height:0">
+    <nav style="border-top:1px solid rgba(11,23,48,.08);background:#FFFFFF;padding:8px clamp(20px,4vw,48px) 24px;display:flex;flex-direction:column">
+      <sc-for list="{{ navM }}" as="n" hint-placeholder-count="5">
+        <a href="KVH Kosher v3.dc.html" style="font-size:20px;font-weight:500;padding:16px 0;border-bottom:1px solid rgba(11,23,48,.08);color:#14213D;opacity:{{ n.op }};transform:{{ n.tr }};transition:opacity .35s ease {{ n.delay }},transform .35s ease {{ n.delay }}">{{ n.label }}</a>
+      </sc-for>
+      <a href="Product-Search.dc.html" style="margin-top:20px;background:#1D4F9C;color:#FFFFFF;font-weight:500;padding:16px 20px;border-radius:4px;text-align:center">Find a Certified Product</a>
+    </nav>
+  </div></div>
+</header>
+
+<main>
+<section style="background:#0B1F44;color:#FFFFFF;padding:clamp(40px,6vw,72px) clamp(20px,4vw,48px)">
+  <div style="max-width:1280px;margin:0 auto">
+    <h1 style="font-family:'Figtree',sans-serif;font-weight:500;font-size:clamp(34px,5.4vw,64px);line-height:1.04;letter-spacing:-.02em;margin:0 0 16px;text-wrap:balance">Apply for KVH certification</h1>
+    <p style="font-size:clamp(17px,1.6vw,20px);line-height:1.55;color:#C9D6EE;margin:0;max-width:640px;text-wrap:pretty">Four short steps. Our team reviews every application and follows up within a few business days.</p>
+  </div>
+</section>
+
+<section style="max-width:760px;margin:0 auto;padding:clamp(28px,5vw,56px) clamp(20px,4vw,32px) clamp(56px,8vw,112px)">
+  <sc-if value="{{ done }}" hint-placeholder-val="{{ false }}">
+    <div style="border-left:4px solid #1D4F9C;padding:8px 0 8px 24px">
+      <h2 style="font-family:'Figtree',sans-serif;font-weight:600;font-size:clamp(28px,3.4vw,40px);letter-spacing:-.02em;line-height:1.1;margin:0 0 16px">Thanks. Your application is in.</h2>
+      <p style="font-size:17px;line-height:1.65;color:#42506B;margin:0 0 28px">A member of the KVH team will review it and be in touch at <strong style="color:#0B1730">{{ d.email }}</strong>. Next comes a review of your products, ingredients, and facility, then an inspection.</p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap">
+        <a href="KVH Kosher v3.dc.html" style="flex:1 1 180px;text-align:center;background:#1D4F9C;color:#FFFFFF;font-weight:600;font-size:15px;padding:16px 26px;border-radius:4px" style-hover="background:#0B1F44;color:#FFFFFF">Back to KVH Kosher</a>
+        <button type="button" onClick="{{ reset }}" style="flex:1 1 180px;background:none;border:1.5px solid #1D4F9C;border-radius:4px;padding:14.5px 24px;font-size:15px;font-weight:600;cursor:pointer;color:#1D4F9C">Start another application</button>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ inProgress }}" hint-placeholder-val="{{ true }}">
+    <div style="display:flex;gap:8px;margin-bottom:36px">
+      <sc-for list="{{ segs }}" as="sg" hint-placeholder-count="4">
+        <div style="flex:1;min-width:0">
+          <div style="height:4px;border-radius:2px;background:{{ sg.bg }};transition:background .3s ease"></div>
+          <div style="margin-top:10px;font-size:13px;font-weight:{{ sg.weight }};color:{{ sg.color }};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ sg.label }}</div>
+        </div>
+      </sc-for>
+    </div>
+
+    <form onSubmit="{{ onSubmit }}" noValidate="{{ true }}">
+      <sc-if value="{{ isStep0 }}" hint-placeholder-val="{{ true }}">
+        <h2 style="font-family:'Figtree',sans-serif;font-weight:600;font-size:clamp(26px,3vw,34px);letter-spacing:-.02em;margin:0 0 8px">What kind of business are you?</h2>
+        <p style="font-size:16px;color:#42506B;margin:0 0 28px">Pick the closest match. You can add detail later.</p>
+        <fieldset style="border:0;padding:0;margin:0 0 8px;min-width:0">
+          <legend style="font-size:14px;font-weight:600;padding:0 0 10px">Business type *</legend>
+          <div style="border-top:2px solid #0B1F44">
+            <sc-for list="{{ typeOpts }}" as="o" hint-placeholder-count="5">
+              <label style="display:flex;align-items:center;gap:14px;padding:16px 0;border-bottom:1px solid rgba(11,23,48,.14);cursor:pointer;font-size:17px">
+                <input type="radio" name="type" checked="{{ o.checked }}" onChange="{{ o.pick }}" style="width:20px;height:20px;accent-color:#1D4F9C;flex:none;margin:0">
+                <span>{{ o.label }}</span>
+              </label>
+            </sc-for>
+          </div>
+          <sc-if value="{{ errors.type }}" hint-placeholder-val="{{ false }}"><div style="color:#B23A1F;font-weight:500;font-size:13px;margin-top:8px">{{ errors.type }}</div></sc-if>
+        </fieldset>
+        <fieldset style="border:0;padding:0;margin:32px 0 0;min-width:0">
+          <legend style="font-size:14px;font-weight:600;padding:0 0 10px">Which best describes this application? *</legend>
+          <div style="border-top:2px solid #0B1F44">
+            <sc-for list="{{ kindOpts }}" as="o" hint-placeholder-count="3">
+              <label style="display:flex;align-items:center;gap:14px;padding:16px 0;border-bottom:1px solid rgba(11,23,48,.14);cursor:pointer;font-size:17px">
+                <input type="radio" name="kind" checked="{{ o.checked }}" onChange="{{ o.pick }}" style="width:20px;height:20px;accent-color:#1D4F9C;flex:none;margin:0">
+                <span>{{ o.label }}</span>
+              </label>
+            </sc-for>
+          </div>
+          <sc-if value="{{ errors.kind }}" hint-placeholder-val="{{ false }}"><div style="color:#B23A1F;font-weight:500;font-size:13px;margin-top:8px">{{ errors.kind }}</div></sc-if>
+        </fieldset>
+      </sc-if>
+
+      <sc-if value="{{ isStep1 }}" hint-placeholder-val="{{ false }}">
+        <h2 style="font-family:'Figtree',sans-serif;font-weight:600;font-size:clamp(26px,3vw,34px);letter-spacing:-.02em;margin:0 0 8px">Tell us about your company</h2>
+        <p style="font-size:16px;color:#42506B;margin:0 0 28px">Who should we contact about this application?</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:28px 32px">
+          <sc-for list="{{ fields }}" as="f" hint-placeholder-count="6">
+            <label style="grid-column:{{ f.col }};display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:600">{{ f.label }}
+              <input type="{{ f.type }}" autocomplete="{{ f.auto }}" value="{{ f.value }}" onChange="{{ f.onChange }}" style="min-height:44px;padding:0;border:none;border-bottom:1.5px solid #14213D;border-radius:0;background:transparent;font-size:16px;outline-color:#1D4F9C;width:100%;box-sizing:border-box">
+              <sc-if value="{{ f.err }}" hint-placeholder-val="{{ false }}"><span style="color:#B23A1F;font-weight:500;font-size:13px">{{ f.err }}</span></sc-if>
+            </label>
+          </sc-for>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isStep2 }}" hint-placeholder-val="{{ false }}">
+        <h2 style="font-family:'Figtree',sans-serif;font-weight:600;font-size:clamp(26px,3vw,34px);letter-spacing:-.02em;margin:0 0 8px">Your products and facility</h2>
+        <p style="font-size:16px;color:#42506B;margin:0 0 28px">A rough picture is enough. We’ll collect ingredient details during review.</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:28px 32px">
+          <label style="grid-column:1/-1;display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:600">What do you make or serve? *
+            <textarea rows="4" value="{{ d.products }}" onChange="{{ onProducts }}" style="padding:10px 0;border:none;border-bottom:1.5px solid #14213D;border-radius:0;background:transparent;font-size:16px;resize:vertical;outline-color:#1D4F9C;width:100%;box-sizing:border-box"></textarea>
+            <sc-if value="{{ errors.products }}" hint-placeholder-val="{{ false }}"><span style="color:#B23A1F;font-weight:500;font-size:13px">{{ errors.products }}</span></sc-if>
+          </label>
+          <label style="display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:600">Number of locations
+            <input type="number" min="1" value="{{ d.sites }}" onChange="{{ onSites }}" style="min-height:44px;padding:0;border:none;border-bottom:1.5px solid #14213D;border-radius:0;background:transparent;font-size:16px;outline-color:#1D4F9C;width:100%;box-sizing:border-box">
+          </label>
+          <label style="display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:600">Current kosher certification
+            <select value="{{ d.current }}" onChange="{{ onCurrent }}" style="min-height:44px;padding:0;border:none;border-bottom:1.5px solid #14213D;border-radius:0;background:transparent;font-size:16px;outline-color:#1D4F9C;width:100%;box-sizing:border-box">
+              <option>None</option>
+              <option>Another kosher agency</option>
+              <option>Previously certified</option>
+            </select>
+          </label>
+          <label style="grid-column:1/-1;display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:600">When would you like to start?
+            <select value="{{ d.target }}" onChange="{{ onTarget }}" style="min-height:44px;padding:0;border:none;border-bottom:1.5px solid #14213D;border-radius:0;background:transparent;font-size:16px;outline-color:#1D4F9C;width:100%;box-sizing:border-box">
+              <option>As soon as possible</option>
+              <option>Within 3 months</option>
+              <option>Within 6 months</option>
+              <option>Just exploring</option>
+            </select>
+          </label>
+          <label style="grid-column:1/-1;display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:600">Anything else we should know?
+            <textarea rows="3" value="{{ d.notes }}" onChange="{{ onNotes }}" style="padding:10px 0;border:none;border-bottom:1.5px solid #14213D;border-radius:0;background:transparent;font-size:16px;resize:vertical;outline-color:#1D4F9C;width:100%;box-sizing:border-box"></textarea>
+          </label>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isStep3 }}" hint-placeholder-val="{{ false }}">
+        <h2 style="font-family:'Figtree',sans-serif;font-weight:600;font-size:clamp(26px,3vw,34px);letter-spacing:-.02em;margin:0 0 8px">Review your application</h2>
+        <p style="font-size:16px;color:#42506B;margin:0 0 28px">Check the details, then submit.</p>
+        <div style="border-top:2px solid #0B1F44">
+          <sc-for list="{{ review }}" as="r" hint-placeholder-count="6">
+            <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:4px 24px;padding:14px 0;border-bottom:1px solid rgba(11,23,48,.14)">
+              <span style="font-weight:600;font-size:15px;flex:0 0 160px">{{ r.k }}</span>
+              <span style="flex:1 1 220px;min-width:0;font-size:16px;color:#14213D;overflow-wrap:anywhere">{{ r.v }}</span>
+              <button type="button" onClick="{{ r.edit }}" style="flex:none;background:none;border:none;padding:4px 0;font-size:14px;font-weight:600;color:#1D4F9C;cursor:pointer;text-decoration:underline;text-underline-offset:3px">Edit</button>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+
+      <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:40px">
+        <sc-if value="{{ canBack }}" hint-placeholder-val="{{ false }}">
+          <button type="button" onClick="{{ back }}" style="flex:1 1 140px;min-height:54px;background:none;border:1.5px solid #1D4F9C;border-radius:4px;font-size:16px;font-weight:600;color:#1D4F9C;cursor:pointer" style-hover="background:#E3ECFA">Back</button>
+        </sc-if>
+        <button type="submit" style="flex:2 1 200px;min-height:54px;background:#1D4F9C;color:#FFFFFF;border:none;border-radius:4px;font-size:16px;font-weight:600;cursor:pointer" style-hover="background:#0B1F44">{{ nextLabel }}</button>
+      </div>
+    </form>
+  </sc-if>
+</section>
+</main>
+
+<footer>
+  <div style="background:#0B1F44;color:#FFFFFF;padding:clamp(40px,5vw,64px) clamp(24px,4vw,72px) 28px">
+    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:24px;padding-bottom:32px;border-bottom:1px solid rgba(255,255,255,.14)">
+      <img src="assets/kvh-logo.png" alt="KVH Kosher" style="display:block;width:100%;max-width:240px;height:auto;filter:invert(1);mix-blend-mode:screen">
+      <a href="KVH Kosher v3.dc.html" style="background:#1D4F9C;color:#FFFFFF;font-weight:600;font-size:15px;padding:14px 22px;border-radius:4px" style-hover="background:#FFFFFF;color:#0B1F44">Back to KVH Kosher</a>
+    </div>
+    <div style="padding-top:24px;font-size:14px;color:#C9D6EE">© 2026 KVH Kosher</div>
+  </div>
+</footer>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{}'>
+const TYPES = ['Food manufacturer', 'Restaurant or food service', 'Ingredient supplier', 'Private label or brand', 'Other'];
+const KINDS = ['New to kosher certification', 'Switching from another agency', 'Adding a product line or location'];
+const STEPS = ['Business', 'Details', 'Products', 'Review'];
+const BLANK = { type: '', kind: '', company: '', contact: '', email: '', phone: '', website: '', address: '', city: '', products: '', sites: '1', current: 'None', target: 'As soon as possible', notes: '' };
+
+class Component extends DCLogic {
+  state = { menuOpen: false, step: 0, done: false, errors: {}, d: { ...BLANK } };
+
+  set(k, v) { this.setState({ d: { ...this.state.d, [k]: v } }); }
+  go(n) { this.setState({ step: n, errors: {} }); try { window.scrollTo({ top: 0, behavior: 'smooth' }); } catch (e) {} }
+  validate(step) {
+    const d = this.state.d, e = {};
+    if (step === 0) {
+      if (!d.type) e.type = 'Please choose a business type.';
+      if (!d.kind) e.kind = 'Please choose one.';
+    }
+    if (step === 1) {
+      if (!d.company.trim()) e.company = 'Please enter your company name.';
+      if (!d.contact.trim()) e.contact = 'Please enter a contact name.';
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.email.trim())) e.email = 'Please enter a valid email address.';
+    }
+    if (step === 2) {
+      if (d.products.trim().length < 10) e.products = 'Please add a few more details.';
+    }
+    return e;
+  }
+  submit() {
+    const s = this.state;
+    const e = this.validate(s.step);
+    if (Object.keys(e).length) { this.setState({ errors: e }); return; }
+    if (s.step < 3) this.go(s.step + 1);
+    else { this.setState({ done: true }); try { window.scrollTo({ top: 0, behavior: 'smooth' }); } catch (err) {} }
+  }
+
+  renderVals() {
+    const s = this.state, d = s.d, MO = s.menuOpen;
+    const nav = ['About KVH', 'Certification', 'Kosher Alerts', 'Resources', 'Contact'];
+    const fld = (k, label, type, auto, req, col) => ({ label: label + (req ? ' *' : ''), type, auto, col: col || 'auto', value: d[k], err: s.errors[k], onChange: (e) => this.set(k, e.target.value) });
+    const dash = (v) => (v && String(v).trim()) ? v : 'Not provided';
+    return {
+      menuOpen: MO, panelRows: MO ? '1fr' : '0fr', panelVis: MO ? 'visible' : 'hidden',
+      bar1Top: MO ? '6px' : '0px', bar1Tr: MO ? 'rotate(45deg)' : 'none', bar2Op: MO ? 0 : 1, bar2Tr: MO ? 'scaleX(0)' : 'none', bar3Top: MO ? '6px' : '12px', bar3Tr: MO ? 'rotate(-45deg)' : 'none',
+      navM: nav.map((n, i) => ({ label: n, op: MO ? 1 : 0, tr: MO ? 'none' : 'translateY(-10px)', delay: (0.06 + i * 0.05) + 's' })),
+      menuLabel: MO ? 'Close' : 'Menu',
+      toggleMenu: () => this.setState({ menuOpen: !MO }),
+      nav,
+      done: s.done, inProgress: !s.done, d, errors: s.errors,
+      segs: STEPS.map((t, i) => ({ label: (i + 1) + '. ' + t, bg: i <= s.step ? '#1D4F9C' : 'rgba(11,23,48,.14)', color: i === s.step ? '#0B1730' : '#42506B', weight: i === s.step ? 700 : 500 })),
+      isStep0: s.step === 0, isStep1: s.step === 1, isStep2: s.step === 2, isStep3: s.step === 3,
+      typeOpts: TYPES.map((o) => ({ label: o, checked: d.type === o, pick: () => this.setState({ d: { ...d, type: o }, errors: {} }) })),
+      kindOpts: KINDS.map((o) => ({ label: o, checked: d.kind === o, pick: () => this.setState({ d: { ...d, kind: o }, errors: {} }) })),
+      fields: [
+        fld('company', 'Company name', 'text', 'organization', true, '1 / -1'),
+        fld('contact', 'Contact name', 'text', 'name', true),
+        fld('email', 'Email', 'email', 'email', true),
+        fld('phone', 'Phone', 'tel', 'tel', false),
+        fld('website', 'Website', 'url', 'url', false),
+        fld('address', 'Street address', 'text', 'street-address', false, '1 / -1'),
+        fld('city', 'City, state', 'text', 'address-level2', false, '1 / -1'),
+      ],
+      onProducts: (e) => this.set('products', e.target.value),
+      onSites: (e) => this.set('sites', e.target.value),
+      onCurrent: (e) => this.set('current', e.target.value),
+      onTarget: (e) => this.set('target', e.target.value),
+      onNotes: (e) => this.set('notes', e.target.value),
+      review: [
+        { k: 'Business type', v: dash(d.type), edit: () => this.go(0) },
+        { k: 'Application', v: dash(d.kind), edit: () => this.go(0) },
+        { k: 'Company', v: dash(d.company), edit: () => this.go(1) },
+        { k: 'Contact', v: dash(d.contact), edit: () => this.go(1) },
+        { k: 'Email', v: dash(d.email), edit: () => this.go(1) },
+        { k: 'Phone', v: dash(d.phone), edit: () => this.go(1) },
+        { k: 'Website', v: dash(d.website), edit: () => this.go(1) },
+        { k: 'Address', v: dash([d.address, d.city].filter((x) => x.trim()).join(', ')), edit: () => this.go(1) },
+        { k: 'Products', v: dash(d.products), edit: () => this.go(2) },
+        { k: 'Locations', v: dash(d.sites), edit: () => this.go(2) },
+        { k: 'Current certification', v: dash(d.current), edit: () => this.go(2) },
+        { k: 'Start', v: dash(d.target), edit: () => this.go(2) },
+        { k: 'Notes', v: dash(d.notes), edit: () => this.go(2) },
+      ],
+      canBack: s.step > 0,
+      back: () => this.go(s.step - 1),
+      nextLabel: s.step === 2 ? 'Review application' : (s.step === 3 ? 'Submit application' : 'Continue'),
+      onSubmit: (e) => { e.preventDefault(); this.submit(); },
+      reset: () => this.setState({ done: false, step: 0, errors: {}, d: { ...BLANK } }),
+    };
+  }
+}
+</script>
+</body>
+</html>
