@@ -26,12 +26,12 @@ img{max-width:100%}
 
 <header style="position:sticky;top:0;z-index:50;background:#FFFFFF;border-bottom:1px solid rgba(11,23,48,.08)">
   <div style="max-width:1320px;margin:0 auto;padding:18px clamp(20px,4vw,48px);display:flex;align-items:center;gap:40px">
-    <a href="KVH Kosher v3.dc.html" aria-label="KVH Kosher home" style="display:block;flex:none;line-height:0">
+    <a href="index.html" aria-label="KVH Kosher home" style="display:block;flex:none;line-height:0">
       <img class="kvh-logo" src="assets/kvh-logo.png" alt="KVH Kosher, Education, Communication, Certification" style="display:block;height:46px;width:auto;mix-blend-mode:multiply">
     </a>
     <nav class="kvh-nav" style="display:flex;gap:28px;flex:1;font-size:16px">
       <sc-for list="{{ nav }}" as="n" hint-placeholder-count="5">
-        <a href="KVH Kosher v3.dc.html" style="color:#14213D;padding:8px 0;border-bottom:2px solid transparent" style-hover="color:#1D4F9C;border-bottom-color:#1D4F9C">{{ n }}</a>
+        <a href="index.html" style="color:#14213D;padding:8px 0;border-bottom:2px solid transparent" style-hover="color:#1D4F9C;border-bottom-color:#1D4F9C">{{ n }}</a>
       </sc-for>
     </nav>
     <a class="kvh-find" href="Product-Search.dc.html" style="flex:none;border:1.5px solid #1D4F9C;color:#1D4F9C;font-size:16px;font-weight:500;padding:11px 18px;border-radius:4px" style-hover="background:#1D4F9C;color:#FFFFFF">Find a Product</a>
@@ -44,7 +44,7 @@ img{max-width:100%}
   <div style="display:grid;grid-template-rows:{{ panelRows }};visibility:{{ panelVis }};transition:grid-template-rows .38s cubic-bezier(.2,.7,.2,1),visibility .38s"><div style="overflow:hidden;min-height:0">
     <nav style="border-top:1px solid rgba(11,23,48,.08);background:#FFFFFF;padding:8px clamp(20px,4vw,48px) 24px;display:flex;flex-direction:column">
       <sc-for list="{{ navM }}" as="n" hint-placeholder-count="5">
-        <a href="KVH Kosher v3.dc.html" style="font-size:20px;font-weight:500;padding:16px 0;border-bottom:1px solid rgba(11,23,48,.08);color:#14213D;opacity:{{ n.op }};transform:{{ n.tr }};transition:opacity .35s ease {{ n.delay }},transform .35s ease {{ n.delay }}">{{ n.label }}</a>
+        <a href="index.html" style="font-size:20px;font-weight:500;padding:16px 0;border-bottom:1px solid rgba(11,23,48,.08);color:#14213D;opacity:{{ n.op }};transform:{{ n.tr }};transition:opacity .35s ease {{ n.delay }},transform .35s ease {{ n.delay }}">{{ n.label }}</a>
       </sc-for>
       <a href="Product-Search.dc.html" style="margin-top:20px;background:#1D4F9C;color:#FFFFFF;font-weight:500;padding:16px 20px;border-radius:4px;text-align:center">Find a Certified Product</a>
     </nav>
@@ -65,7 +65,7 @@ img{max-width:100%}
       <h2 style="font-family:'Figtree',sans-serif;font-weight:600;font-size:clamp(28px,3.4vw,40px);letter-spacing:-.02em;line-height:1.1;margin:0 0 16px">Thanks. Your application is in.</h2>
       <p style="font-size:17px;line-height:1.65;color:#42506B;margin:0 0 28px">A member of the KVH team will review it and be in touch at <strong style="color:#0B1730">{{ d.email }}</strong>. Next comes a review of your products, ingredients, and facility, then an inspection.</p>
       <div style="display:flex;gap:12px;flex-wrap:wrap">
-        <a href="KVH Kosher v3.dc.html" style="flex:1 1 180px;text-align:center;background:#1D4F9C;color:#FFFFFF;font-weight:600;font-size:15px;padding:16px 26px;border-radius:4px" style-hover="background:#0B1F44;color:#FFFFFF">Back to KVH Kosher</a>
+        <a href="index.html" style="flex:1 1 180px;text-align:center;background:#1D4F9C;color:#FFFFFF;font-weight:600;font-size:15px;padding:16px 26px;border-radius:4px" style-hover="background:#0B1F44;color:#FFFFFF">Back to KVH Kosher</a>
         <button type="button" onClick="{{ reset }}" style="flex:1 1 180px;background:none;border:1.5px solid #1D4F9C;border-radius:4px;padding:14.5px 24px;font-size:15px;font-weight:600;cursor:pointer;color:#1D4F9C">Start another application</button>
       </div>
     </div>
@@ -185,7 +185,7 @@ img{max-width:100%}
   <div style="background:#0B1F44;color:#FFFFFF;padding:clamp(40px,5vw,64px) clamp(24px,4vw,72px) 28px">
     <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:24px;padding-bottom:32px;border-bottom:1px solid rgba(255,255,255,.14)">
       <img src="assets/kvh-logo.png" alt="KVH Kosher" style="display:block;width:100%;max-width:240px;height:auto;filter:invert(1);mix-blend-mode:screen">
-      <a href="KVH Kosher v3.dc.html" style="background:#1D4F9C;color:#FFFFFF;font-weight:600;font-size:15px;padding:14px 22px;border-radius:4px" style-hover="background:#FFFFFF;color:#0B1F44">Back to KVH Kosher</a>
+      <a href="index.html" style="background:#1D4F9C;color:#FFFFFF;font-weight:600;font-size:15px;padding:14px 22px;border-radius:4px" style-hover="background:#FFFFFF;color:#0B1F44">Back to KVH Kosher</a>
     </div>
     <div style="padding-top:24px;font-size:14px;color:#C9D6EE">© 2026 KVH Kosher</div>
   </div>
