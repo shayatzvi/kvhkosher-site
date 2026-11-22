@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+html{scroll-behavior:smooth}
+body{margin:0;background:#FFFFFF;color:#10201C;font-family:'Figtree',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#1F615B;text-decoration:none}
+a:hover{color:#143F3B}
+input,select,textarea,button{font-family:inherit}
+@keyframes kvhFill{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes kvhMarquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation-duration:0s!important}}
+</style>
+</helmet>
+
+<sc-if value="{{ showNotice }}" hint-placeholder-val="{{ true }}">
+<a href="#alerts" style="display:block;background:#E8C45E;color:#10201C;font-size:14px" style-hover="color:#10201C">
+  
+</a>
+</sc-if>
+
+<header style="position:sticky;top:0;z-index:50;background:#FFFFFF;border-bottom:1px solid rgba(16,32,28,.08);box-shadow:{{ headerShadow }};transition:box-shadow .3s ease">
+  <div style="max-width:1320px;margin:0 auto;padding:{{ headerPad }} clamp(20px,4vw,48px);display:flex;align-items:center;gap:40px;transition:padding .3s ease">
+    <a href="#top" aria-label="KVH Kosher home" style="display:block;flex:none;line-height:0">
+      <img src="assets/kvh-logo.png" alt="KVH Kosher — Education, Communication, Certification" style="display:block;height:{{ logoH }};width:auto;mix-blend-mode:multiply;transition:height .3s ease">
+    </a>
+    <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
+      <nav style="display:flex;gap:28px;flex:1;font-size:16px">
+        <sc-for list="{{ nav }}" as="n" hint-placeholder-count="6">
+          <a href="{{ n.href }}" style="color:#1A2B28;padding:8px 0;border-bottom:2px solid transparent;transition:color .2s ease,border-color .2s ease" style-hover="color:#1F615B;border-bottom-color:#E8C45E">{{ n.label }}</a>
+        </sc-for>
+      </nav>
+      <a href="#contact" style="flex:none;color:#1A2B28;font-size:16px" style-hover="color:#1F615B">Get Certified</a>
+      <a href="#search" style="flex:none;display:flex;align-items:center;gap:8px;border:1.5px solid #1F615B;color:#1F615B;font-size:16px;font-weight:500;padding:12px 18px;border-radius:4px;transition:all .2s ease" style-hover="background:#1F615B;color:#FFFFFF"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>Find a Product</a>
+    </sc-if>
+    <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
+      <div style="flex:1"></div>
+      <button onClick="{{ toggleMenu }}" aria-label="Menu" style="height:48px;padding:0 18px;background:#FFFFFF;border:1.5px solid #1F615B;border-radius:4px;cursor:pointer;font-size:15px;font-weight:500;color:#1F615B">{{ menuLabel }}</button>
+    </sc-if>
+  </div>
+  <sc-if value="{{ menuVisible }}" hint-placeholder-val="{{ false }}">
+    <nav style="border-top:1px solid rgba(16,32,28,.08);background:#FFFFFF;padding:8px clamp(20px,4vw,48px) 24px;display:flex;flex-direction:column">
+      <sc-for list="{{ nav }}" as="n" hint-placeholder-count="6">
+        <a href="{{ n.href }}" onClick="{{ closeMenu }}" style="font-size:20px;font-weight:500;padding:16px 0;border-bottom:1px solid rgba(16,32,28,.08);color:#1A2B28">{{ n.label }}</a>
+      </sc-for>
+      <a href="#search" onClick="{{ closeMenu }}" style="margin-top:20px;background:#1F615B;color:#FFFFFF;font-weight:500;padding:16px 20px;border-radius:4px;text-align:center">Find a Certified Product</a>
+    </nav>
+  </sc-if>
+</header>
+
+<main id="top">
+
+<section data-screen-label="Hero" style="position:relative;height:clamp(560px,84vh,820px);background:#143F3B;overflow:hidden;color:#FFFFFF">
+  <img src="assets/photo-facility.png" alt="Quality inspector with a clipboard in a food production facility" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:60% 30%">
+  <div style="position:absolute;inset:0;background:rgba(8,22,19,.48);pointer-events:none"></div>
+  <div style="position:absolute;inset:0;pointer-events:none;display:flex;align-items:center">
+    <div style="width:100%;max-width:1320px;margin:0 auto;padding:0 clamp(20px,4vw,48px) 72px;box-sizing:border-box">
+      <div style="max-width:720px;pointer-events:auto">
+        
+        <h1 style="font-family:'Figtree',sans-serif;font-weight:500;font-size:clamp(44px,6vw,80px);line-height:1.02;letter-spacing:-.02em;margin:0 0 24px;text-wrap:balance">{{ slide.title }}</h1>
+        <p style="font-size:clamp(18px,1.6vw,22px);line-height:1.5;margin:0 0 36px;max-width:620px;color:#F1F4F3;text-wrap:pretty">{{ slide.desc }}</p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <a href="{{ slide.href }}" style="display:flex;align-items:center;gap:12px;border:1.5px solid #FFFFFF;color:#FFFFFF;font-size:17px;font-weight:500;padding:15px 24px;border-radius:4px;transition:all .2s ease" style-hover="background:#FFFFFF;color:#10201C">{{ slide.cta }}<span style="font-size:20px">→</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="position:absolute;left:0;right:0;bottom:88px;pointer-events:none">
+    <div style="max-width:1320px;margin:0 auto;padding:0 clamp(20px,4vw,48px);display:flex;justify-content:space-between;align-items:center;gap:24px">
+      <span style="font-size:14px;letter-spacing:.12em;color:#F1F4F3">{{ slideCounter }}</span>
+      <div style="display:flex;align-items:center;gap:20px;pointer-events:auto">
+        <div style="display:flex;gap:8px">
+          <sc-for list="{{ dots }}" as="d" hint-placeholder-count="3">
+            <button onClick="{{ d.go }}" aria-label="{{ d.label }}" style="width:36px;height:3px;border:none;padding:0;background:rgba(255,255,255,.35);overflow:hidden;cursor:pointer;position:relative">{{ d.fill }}</button>
+          </sc-for>
+        </div>
+        <button onClick="{{ prevSlide }}" aria-label="Previous" style="width:44px;height:44px;border:none;background:none;color:#FFFFFF;font-size:24px;cursor:pointer">←</button>
+        <button onClick="{{ nextSlide }}" aria-label="Next" style="width:44px;height:44px;border:none;background:none;color:#FFFFFF;font-size:24px;cursor:pointer;margin-left:-16px">→</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="search" data-screen-label="Quick search" style="scroll-margin-top:120px;position:relative;z-index:2;max-width:1120px;margin:-48px auto 0;padding:0 clamp(16px,4vw,48px)">
+  <form onSubmit="{{ onHeroSearch }}" style="background:#FFFFFF;border-radius:8px;box-shadow:0 16px 48px rgba(14,47,40,.16);padding:12px;display:flex;flex-wrap:wrap;gap:12px;align-items:center">
+    <span style="flex:none;padding:0 12px 0 16px;font-size:15px;font-weight:600;color:#1F615B">Is it KVH certified?</span>
+    <input name="q" aria-label="Search" placeholder="Search a product or brand" style="flex:1 1 240px;min-width:0;height:52px;border:1px solid rgba(16,32,28,.14);border-radius:4px;outline-color:#1F615B;background:#F5F8F7;font-size:16px;padding:0 16px;color:#10201C">
+    <button type="submit" style="flex:none;height:54px;padding:0 28px;border:none;border-radius:4px;background:#1F615B;color:#FFFFFF;font-size:16px;font-weight:500;cursor:pointer" style-hover="background:#143F3B">Search</button>
+  </form>
+</section>
+
+<section data-screen-label="Audience" style="max-width:1280px;margin:0 auto;padding:clamp(56px,7vw,96px) clamp(20px,4vw,48px) clamp(64px,8vw,112px)">
+  <div data-reveal="1" style="background:#FFFFFF;border:1px solid rgba(16,32,28,.08);border-radius:12px;padding:clamp(24px,3.5vw,40px)">
+    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:16px;margin-bottom:28px">
+      <h2 style="font-family:'Figtree',sans-serif;font-weight:600;font-size:clamp(24px,2.6vw,32px);letter-spacing:-.02em;margin:0">How can we help you today?</h2>
+      <div role="tablist" style="display:flex;background:#EEF2F1;border-radius:4px;padding:4px">
+        <sc-for list="{{ audiences }}" as="au" hint-placeholder-count="2">
+          <button role="tab" onClick="{{ au.onClick }}" style="border:none;border-radius:4px;padding:12px 22px;font-size:15px;font-weight:600;cursor:pointer;background:{{ au.bg }};color:{{ au.color }};box-shadow:{{ au.shadow }};transition:all .25s ease">{{ au.label }}</button>
+        </sc-for>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:12px">
+      <sc-for list="{{ quickLinks }}" as="ql" hint-placeholder-count="3">
+        <a href="{{ ql.href }}" style="display:flex;flex-direction:column;gap:8px;padding:24px;border-radius:8px;background:#F5F8F7;border:1px solid rgba(16,32,28,.06);color:#10201C;transition:transform .25s ease,background .25s ease" style-hover="background:#E4EFEC;transform:translateY(-2px);color:#10201C">
+          <span style="font-family:'Figtree',sans-serif;font-size:20px;font-weight:600;letter-spacing:-.01em">{{ ql.t }}</span>
+          <span style="font-size:15px;line-height:1.5;color:#3D4A46">{{ ql.d }}</span>
+          <span style="margin-top:8px;font-size:14px;font-weight:600;color:#1F615B">{{ ql.cta }} →</span>
+        </a>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<section id="certification" data-screen-label="Certification" style="scroll-margin-top:96px;padding:0 clamp(12px,2vw,24px)">
+  <div style="max-width:none;margin:0 auto;background:#143F3B;color:#FFFFFF;border-radius:0;padding:clamp(56px,7vw,104px) clamp(20px,4vw,72px)">
+    <div data-reveal="1" style="max-width:720px;margin:0 auto 56px;text-align:center">
+      
+      <h2 style="font-family:'Figtree',sans-serif;font-weight:500;font-size:clamp(36px,4.6vw,60px);line-height:1.02;letter-spacing:-.02em;margin:0 0 16px">Certification built on trust</h2>
+      <p style="font-size:18px;line-height:1.55;color:#CFDDDA;margin:0">Whatever you make or serve, there’s a clear path to KVH certification.</p>
+    </div>
+    
+  </div>
+</section>
+
+
+
+<section id="alerts" data-screen-label="Kosher Alerts" style="scroll-margin-top:96px;max-width:1280px;margin:0 auto;padding:clamp(64px,8vw,104px) clamp(20px,4vw,48px)">
+  <div data-reveal="1" style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:12px 24px;margin-bottom:24px">
+    <div>
+      <h2 style="font-family:'Figtree',sans-serif;font-weight:600;font-size:clamp(30px,3.4vw,42px);line-height:1.1;letter-spacing:-.02em;margin:0 0 6px">Kosher Alerts</h2>
+      <p style="font-size:16px;color:#3D4A46;margin:0">Important updates and certification notices from KVH Kosher.</p>
+    </div>
+    <a href="#alerts" style="font-size:15px;font-weight:600;color:#1F615B" style-hover="color:#143F3B;text-decoration:underline">View all alerts →</a>
+  </div>
+  <div role="tablist" style="display:flex;gap:28px;border-bottom:1px solid rgba(16,32,28,.14);overflow-x:auto">
+    <sc-for list="{{ filters }}" as="f" hint-placeholder-count="5">
+      <button role="tab" onClick="{{ f.onClick }}" style="flex:none;background:none;border:none;border-bottom:2px solid {{ f.border }};margin-bottom:-1px;padding:12px 0;font-size:15px;font-weight:{{ f.weight }};color:{{ f.color }};cursor:pointer">{{ f.label }}</button>
+    </sc-for>
+  </div>
+  <sc-if value="{{ hasAlerts }}" hint-placeholder-val="{{ true }}">
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:40px 48px;padding-top:32px">
+    <a href="#alerts" data-reveal="1" style="display:flex;flex-direction:column;gap:16px;color:#10201C" style-hover="color:#10201C">
+      <div style="aspect-ratio:16/10;border-radius:8px;overflow:hidden;background:#E4EFEC">
+        <img src="assets/photo-facility.png" alt="" style="width:100%;height:100%;object-fit:cover;object-position:60% 30%;display:block">
+      </div>
+      <div style="display:flex;gap:10px;align-items:center;font-size:13px;color:#3D4A46">
+        <span style="font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:{{ featured.catColor }}">{{ featured.category }}</span>
+        <span>·</span>
+        <span>{{ featured.date }}</span>
+      </div>
+      <h3 style="font-family:'Figtree',sans-serif;font-weight:600;font-size:clamp(24px,2.4vw,30px);line-height:1.2;letter-spacing:-.01em;margin:0;text-wrap:balance">{{ featured.title }}</h3>
+      <p style="font-size:16px;line-height:1.6;color:#3D4A46;margin:0">{{ featured.desc }}</p>
+      <span style="font-size:15px;font-weight:600;color:#1F615B">Read the full alert →</span>
+    </a>
+    <div style="display:flex;flex-direction:column">
+      <sc-for list="{{ otherAlerts }}" as="a" hint-placeholder-count="3">
+        <a href="#alerts" style="display:flex;flex-direction:column;gap:8px;padding:0 0 24px;margin-bottom:24px;border-bottom:1px solid rgba(16,32,28,.1);color:#10201C" style-hover="color:#1F615B">
+          <div style="display:flex;gap:10px;align-items:center;font-size:13px;color:#3D4A46">
+            <span style="font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:{{ a.catColor }}">{{ a.category }}</span>
+            <span>·</span>
+            <span>{{ a.date }}</span>
+          </div>
+          <h3 style="font-family:'Figtree',sans-serif;font-weight:600;font-size:20px;line-height:1.3;margin:0;text-wrap:pretty">{{ a.title }}</h3>
+          <p style="font-size:15px;line-height:1.55;color:#3D4A46;margin:0">{{ a.desc }}</p>
+          <span style="font-size:14px;font-weight:600;color:#1F615B">Read more →</span>
+        </a>
+      </sc-for>
+      <sc-if value="{{ noOtherAlerts }}" hint-placeholder-val="{{ false }}">
+        <p style="font-size:15px;color:#3D4A46;margin:0">No other alerts in this category.</p>
+      </sc-if>
+    </div>
+  </div>
+  </sc-if>
+</section>
+
+<section data-screen-label="Certified Brands" style="padding:clamp(64px,8vw,104px) 0 clamp(56px,7vw,88px);overflow:hidden">
+  <div data-reveal="1" style="max-width:1280px;margin:0 auto 36px;padding:0 clamp(20px,4vw,48px);text-align:center">
+    <h2 style="font-family:'Figtree',sans-serif;font-weight:500;font-size:clamp(30px,3.6vw,44px);letter-spacing:-.02em;margin:0">Trusted by brands you know</h2>
+  </div>
+  {{ marquee }}
+</section>
+
+<section id="about" data-screen-label="About" style="scroll-margin-top:96px;max-width:1280px;margin:0 auto;padding:clamp(24px,4vw,48px) clamp(20px,4vw,48px) clamp(72px,9vw,128px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:clamp(32px,5vw,72px);align-items:center">
+  <div data-reveal="1">
+    
+    <h2 style="font-family:'Figtree',sans-serif;font-weight:500;font-size:clamp(36px,4.6vw,60px);line-height:1.02;letter-spacing:-.02em;margin:0 0 20px;text-wrap:balance">A trusted standard of kashrut</h2>
+    <p style="font-size:18px;line-height:1.6;color:#3D4A46;margin:0 0 32px;text-wrap:pretty">KVH Kosher provides kosher certification, education, and communication while helping businesses meet rigorous standards of kashrut.</p>
+    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:32px">
+      <sc-for list="{{ pillars }}" as="p" hint-placeholder-count="3">
+        <div style="border-radius:8px;background:{{ p.bg }};border:1px solid rgba(16,32,28,.08);transition:background .3s ease">
+          <button onClick="{{ p.toggle }}" aria-expanded="{{ p.open }}" style="width:100%;display:flex;align-items:center;gap:16px;background:none;border:none;padding:20px 22px;text-align:left;cursor:pointer;color:#10201C">
+            <span style="flex:none;width:36px;height:36px;border-radius:12px;background:{{ p.numBg }};color:{{ p.numColor }};display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;transition:all .3s ease">{{ p.n }}</span>
+            <span style="flex:1;font-family:'Figtree',sans-serif;font-size:21px;font-weight:600;letter-spacing:-.01em">{{ p.t }}</span>
+            <span style="font-size:20px;color:#1F615B">{{ p.sign }}</span>
+          </button>
+          <sc-if value="{{ p.open }}" hint-placeholder-val="{{ false }}">
+            <p style="margin:0;padding:0 22px 22px 74px;font-size:15px;line-height:1.6;color:#3D4A46">{{ p.d }}</p>
+          </sc-if>
+        </div>
+      </sc-for>
+    </div>
+    <a href="#about" style="display:inline-block;background:#1F615B;color:#FFFFFF;font-weight:600;font-size:15px;padding:16px 26px;border-radius:4px" style-hover="background:#143F3B;color:#FFFFFF">Learn More About KVH</a>
+  </div>
+  <div data-reveal="1" style="position:relative;aspect-ratio:4/5;max-height:680px;border-radius:12px;overflow:hidden;background:#143F3B">
+    <img src="assets/kvh-logo.png" alt="KVH Kosher" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:76%;height:auto;filter:invert(1);mix-blend-mode:screen">
+  </div>
+</section>
+
+<section id="resources" data-screen-label="Resources" style="scroll-margin-top:96px;max-width:1280px;margin:0 auto;padding:0 clamp(20px,4vw,48px) clamp(72px,9vw,128px)">
+  <div data-reveal="1" style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:20px;margin-bottom:32px">
+    <div>
+      
+      <h2 style="font-family:'Figtree',sans-serif;font-weight:500;font-size:clamp(36px,4.6vw,60px);line-height:1.02;letter-spacing:-.02em;margin:0">Learn the essentials</h2>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px">
+      <sc-for list="{{ resCats }}" as="rc" hint-placeholder-count="5">
+        <a href="#resources" style="font-size:14px;font-weight:600;color:#10201C;border:1px solid rgba(16,32,28,.14);border-radius:4px;padding:10px 16px" style-hover="background:#10201C;color:#FFFFFF">{{ rc }}</a>
+      </sc-for>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:20px">
+    <sc-for list="{{ articles }}" as="r" hint-placeholder-count="3">
+      <a href="#resources" data-reveal="1" style="display:flex;flex-direction:column;background:#FFFFFF;border:1px solid rgba(16,32,28,.08);border-radius:12px;overflow:hidden;color:#10201C;transition:transform .3s ease,box-shadow .3s ease" style-hover="transform:translateY(-4px);box-shadow:0 16px 40px rgba(14,47,40,.10);color:#10201C">
+        
+        <div style="padding:24px 24px 28px;display:flex;flex-direction:column;gap:10px;flex:1">
+          
+          <h3 style="font-family:'Figtree',sans-serif;font-weight:600;font-size:22px;line-height:1.2;letter-spacing:-.01em;margin:4px 0 0;text-wrap:balance">{{ r.title }}</h3>
+          <p style="font-size:15px;line-height:1.55;color:#3D4A46;margin:0">{{ r.desc }}</p>
+          <span style="margin-top:auto;padding-top:8px;font-size:15px;font-weight:600;color:#1F615B">Read article →</span>
+        </div>
+      </a>
+    </sc-for>
+  </div>
+  <div id="faq" style="margin-top:clamp(48px,6vw,80px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:24px 48px">
+    <div data-reveal="1">
+      <h3 style="font-family:'Figtree',sans-serif;font-weight:500;font-size:clamp(28px,3vw,40px);letter-spacing:-.02em;line-height:1.05;margin:0 0 12px">Frequently asked questions</h3>
+      <p style="font-size:16px;line-height:1.55;color:#3D4A46;margin:0">Still have a question? <a href="#contact" style="font-weight:600;text-decoration:underline;text-underline-offset:3px">Ask our team</a>.</p>
+    </div>
+    <div style="grid-column:span 2;min-width:0;display:flex;flex-direction:column;gap:8px">
+      <sc-for list="{{ faqs }}" as="q" hint-placeholder-count="4">
+        <div style="background:#FFFFFF;border:1px solid rgba(16,32,28,.08);border-radius:8px">
+          <button onClick="{{ q.toggle }}" aria-expanded="{{ q.open }}" style="width:100%;display:flex;justify-content:space-between;align-items:center;gap:20px;background:none;border:none;padding:20px 22px;text-align:left;cursor:pointer;color:#10201C;font-size:17px;font-weight:600">
+            <span>{{ q.q }}</span>
+            <span style="flex:none;width:32px;height:32px;border-radius:50%;background:{{ q.signBg }};color:{{ q.signColor }};display:flex;align-items:center;justify-content:center;font-size:18px;transition:all .25s ease">{{ q.sign }}</span>
+          </button>
+          <sc-if value="{{ q.open }}" hint-placeholder-val="{{ false }}">
+            <p style="margin:0;padding:0 22px 22px;font-size:15px;line-height:1.65;color:#3D4A46;text-wrap:pretty">{{ q.a }}</p>
+          </sc-if>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<section data-screen-label="For Businesses" style="padding:0">
+  <div style="max-width:none;margin:0 auto;background:#1F615B;color:#FFFFFF;border-radius:0;overflow:hidden;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,440px),1fr))">
+    <div data-reveal="1" style="padding:clamp(48px,6vw,88px) clamp(24px,5vw,72px)">
+      
+      <h2 style="font-family:'Figtree',sans-serif;font-weight:500;font-size:clamp(36px,4.4vw,58px);line-height:1.02;letter-spacing:-.02em;margin:0 0 20px;text-wrap:balance">Bring your product to the kosher market</h2>
+      <p style="font-size:18px;line-height:1.55;color:#CFDDDA;margin:0 0 28px;max-width:480px">Certification opens shelves, distributors, and customers who look for a symbol they recognise.</p>
+      <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:36px">
+        <sc-for list="{{ steps }}" as="st" hint-placeholder-count="3">
+          <div style="display:flex;gap:14px;align-items:center">
+            <span style="flex:none;width:32px;height:32px;border-radius:50%;background:#143F3B;color:#E8C45E;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700">{{ st.n }}</span>
+            <span style="font-size:16px">{{ st.t }}</span>
+          </div>
+        </sc-for>
+      </div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap">
+        <a href="#contact" style="background:#E8C45E;color:#10201C;font-weight:600;font-size:15px;padding:16px 26px;border-radius:4px" style-hover="background:#FFFFFF;color:#10201C">Start the Certification Process</a>
+        <a href="#contact" style="border:1.5px solid rgba(255,255,255,.4);color:#FFFFFF;font-weight:600;font-size:15px;padding:14.5px 24px;border-radius:4px" style-hover="background:#FFFFFF;color:#1F615B">Contact KVH</a>
+      </div>
+    </div>
+    
+  </div>
+</section>
+
+<section id="contact" data-screen-label="Contact" style="scroll-margin-top:96px;max-width:1280px;margin:0 auto;padding:clamp(72px,9vw,128px) clamp(20px,4vw,48px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr));gap:40px clamp(32px,5vw,80px)">
+  <div data-reveal="1">
+    
+    <h2 style="font-family:'Figtree',sans-serif;font-weight:500;font-size:clamp(40px,5vw,64px);line-height:1;letter-spacing:-.02em;margin:0 0 16px">Get in touch</h2>
+    <p style="font-size:18px;line-height:1.55;color:#3D4A46;margin:0 0 32px;max-width:420px">For certification inquiries, consumer questions, and general information.</p>
+    <div style="display:flex;flex-direction:column;max-width:420px;border-top:1px solid rgba(16,32,28,.14)">
+      <sc-for list="{{ contactLines }}" as="c" hint-placeholder-count="3">
+        <div style="padding:18px 0;border-bottom:1px solid rgba(16,32,28,.14)">
+          <div style="font-weight:600;font-size:16px;margin-bottom:2px">{{ c.k }}</div>
+          <div style="font-size:15px;color:#3D4A46">{{ c.v }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+  <div data-reveal="1">
+    <sc-if value="{{ submitted }}" hint-placeholder-val="{{ false }}">
+      <div style="background:#E4EFEC;border-radius:12px;padding:48px 40px">
+        <span style="display:inline-flex;width:48px;height:48px;border-radius:50%;background:#1F615B;color:#E8C45E;align-items:center;justify-content:center;font-size:22px;margin-bottom:20px">✓</span>
+        <p style="font-family:'Figtree',sans-serif;font-size:28px;font-weight:600;letter-spacing:-.02em;line-height:1.15;margin:0 0 16px">Thanks — a member of the KVH team will be in touch.</p>
+        <button onClick="{{ resetForm }}" style="background:#FFFFFF;border:none;border-radius:4px;padding:12px 20px;font-size:15px;font-weight:600;cursor:pointer;color:#1F615B">Send another inquiry</button>
+      </div>
+    </sc-if>
+    <sc-if value="{{ showForm }}" hint-placeholder-val="{{ true }}">
+      <form onSubmit="{{ onSubmit }}" noValidate="{{ true }}" style="background:#FFFFFF;border:1px solid rgba(16,32,28,.08);border-radius:12px;box-shadow:0 16px 48px rgba(14,47,40,.06);padding:clamp(24px,3.5vw,40px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:18px">
+        <label style="display:flex;flex-direction:column;gap:8px;font-size:14px;font-weight:600">Name *
+          <input name="name" autocomplete="name" style="min-height:52px;padding:0 16px;border:1px solid rgba(16,32,28,.16);border-radius:14px;background:#F5F8F7;font-size:15px;outline-color:#1F615B">
+          <sc-if value="{{ errors.name }}" hint-placeholder-val="{{ false }}"><span style="color:#B23A1F;font-weight:500;font-size:13px">{{ errors.name }}</span></sc-if>
+        </label>
+        <label style="display:flex;flex-direction:column;gap:8px;font-size:14px;font-weight:600">Email *
+          <input name="email" type="email" autocomplete="email" style="min-height:52px;padding:0 16px;border:1px solid rgba(16,32,28,.16);border-radius:14px;background:#F5F8F7;font-size:15px;outline-color:#1F615B">
+          <sc-if value="{{ errors.email }}" hint-placeholder-val="{{ false }}"><span style="color:#B23A1F;font-weight:500;font-size:13px">{{ errors.email }}</span></sc-if>
+        </label>
+        <label style="display:flex;flex-direction:column;gap:8px;font-size:14px;font-weight:600">Company
+          <input name="company" autocomplete="organization" style="min-height:52px;padding:0 16px;border:1px solid rgba(16,32,28,.16);border-radius:14px;background:#F5F8F7;font-size:15px;outline-color:#1F615B">
+        </label>
+        <label style="display:flex;flex-direction:column;gap:8px;font-size:14px;font-weight:600">Phone
+          <input name="phone" type="tel" autocomplete="tel" style="min-height:52px;padding:0 16px;border:1px solid rgba(16,32,28,.16);border-radius:14px;background:#F5F8F7;font-size:15px;outline-color:#1F615B">
+        </label>
+        <label style="grid-column:1/-1;display:flex;flex-direction:column;gap:8px;font-size:14px;font-weight:600">Inquiry type *
+          <select name="type" style="min-height:52px;padding:0 14px;border:1px solid rgba(16,32,28,.16);border-radius:14px;background:#F5F8F7;font-size:15px;color:#10201C;outline-color:#1F615B">
+            <option value="">Select an inquiry type</option>
+            <option>Certification inquiry</option>
+            <option>Consumer question</option>
+            <option>Report a kosher concern</option>
+            <option>General information</option>
+          </select>
+          <sc-if value="{{ errors.type }}" hint-placeholder-val="{{ false }}"><span style="color:#B23A1F;font-weight:500;font-size:13px">{{ errors.type }}</span></sc-if>
+        </label>
+        <label style="grid-column:1/-1;display:flex;flex-direction:column;gap:8px;font-size:14px;font-weight:600">Message *
+          <textarea name="message" rows="4" style="padding:14px 16px;border:1px solid rgba(16,32,28,.16);border-radius:14px;background:#F5F8F7;font-size:15px;resize:vertical;outline-color:#1F615B"></textarea>
+          <sc-if value="{{ errors.message }}" hint-placeholder-val="{{ false }}"><span style="color:#B23A1F;font-weight:500;font-size:13px">{{ errors.message }}</span></sc-if>
+        </label>
+        <div style="grid-column:1/-1;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:16px">
+          <span style="font-size:13px;color:#3D4A46">* Required</span>
+          <button type="submit" style="min-height:54px;padding:0 30px;background:#1F615B;color:#FFFFFF;border:none;border-radius:4px;font-size:15px;font-weight:600;cursor:pointer" style-hover="background:#143F3B">Submit Inquiry</button>
+        </div>
+      </form>
+    </sc-if>
+  </div>
+</section>
+
+</main>
+
+<footer style="padding:0">
+  <div style="max-width:none;margin:0 auto;background:#143F3B;color:#FFFFFF;border-radius:0;padding:clamp(48px,6vw,80px) clamp(24px,4vw,72px) 32px">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,170px),1fr));gap:40px;padding-bottom:48px;border-bottom:1px solid rgba(255,255,255,.12)">
+      <div style="grid-column:span 2;min-width:0">
+        <img src="assets/kvh-logo.png" alt="KVH Kosher — Education, Communication, Certification" style="display:block;width:100%;max-width:300px;height:auto;filter:invert(1);mix-blend-mode:screen;margin-bottom:24px">
+        <a href="#search" style="display:inline-block;background:#E8C45E;color:#10201C;font-weight:600;font-size:15px;padding:14px 22px;border-radius:4px" style-hover="background:#FFFFFF;color:#10201C">Find a Certified Product</a>
+      </div>
+      <sc-for list="{{ footerCols }}" as="col" hint-placeholder-count="3">
+        <div>
+          <div style="font-family:'Figtree',sans-serif;font-size:18px;font-weight:600;margin-bottom:16px;color:#E8C45E">{{ col.title }}</div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <sc-for list="{{ col.links }}" as="l" hint-placeholder-count="3">
+              <a href="{{ l.href }}" style="color:#CFDDDA;font-size:15px;transition:color .15s ease" style-hover="color:#FFFFFF">{{ l.label }}</a>
+            </sc-for>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;padding-top:24px;font-size:14px;color:#CFDDDA">
+      <span>© 2026 KVH Kosher</span>
+      <div style="display:flex;gap:24px">
+        <a href="#top" style="color:#CFDDDA" style-hover="color:#FFFFFF">Privacy Policy</a>
+        <a href="#top" style="color:#CFDDDA" style-hover="color:#FFFFFF">Terms</a>
+      </div>
+    </div>
+  </div>
+</footer>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showNotice&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Layout&quot;},&quot;autoplay&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Motion&quot;}}">
+const h = React.createElement;
+const ico = (paths, size = 26) => h('svg', { width: size, height: size, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 1.6, strokeLinecap: 'round', strokeLinejoin: 'round' }, paths.map((d, i) => h('path', { key: i, d })));
+const ICONS = {
+  factory: ico(['M2 20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8l-7 5V8l-7 5V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z', 'M17 18h1', 'M12 18h1', 'M7 18h1']),
+  utensils: ico(['M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2', 'M7 2v20', 'M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7']),
+  leaf: ico(['M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z', 'M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12']),
+  tag: ico(['M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z', 'M7.5 7.5h.01']),
+  badge: ico(['M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z', 'm9 12 2 2 4-4'], 20),
+  help: ico(['M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20Z', 'M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3', 'M12 17h.01'], 20),
+  mail: ico(['M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z', 'm22 6-10 7L2 6'], 20),
+};
+const SLIDES = [
+  { tag: 'Certification', title: 'Kosher certification you can trust', desc: 'A standard of kashrut. A commitment to excellence. Trusted certification, education, and communication for businesses and consumers.', cta: 'Learn about certification', href: '#certification', slot: 'hero-photo', ph: 'Photo — food production line or bakery' },
+  { tag: 'Kosher Alerts', title: 'Stay informed, shop with confidence', desc: 'Certification notices, product alerts, and advisories — published as soon as they matter.', cta: 'View Kosher Alerts', href: '#alerts', slot: 'hero-photo-2', ph: 'Photo — grocery shelf or packaged products' },
+  { tag: 'For Businesses', title: 'Bring your product to the kosher market', desc: 'Certification for manufacturers, restaurants, ingredients, and private-label brands.', cta: 'Start the certification process', href: '#contact', slot: 'hero-photo-3', ph: 'Photo — chef preparing food in a kitchen' },
+];
+const ALERTS = [
+  { date: 'Oct 7, 2026', category: 'Certification Notice', title: 'Important kosher certification notice', desc: 'Example alert — a summary of the notice, what’s affected, and what consumers should do.' },
+  { date: 'Sep 29, 2026', category: 'Product Alert', title: 'Labeling notice: [Product name] bearing an unauthorized symbol', desc: 'Example alert — identifies the product, lot codes, and the status of the symbol on the packaging.' },
+  { date: 'Sep 18, 2026', category: 'Establishment Update', title: '[Establishment name] is no longer under KVH supervision', desc: 'Example alert — effective date of the change and guidance for customers.' },
+  { date: 'Sep 4, 2026', category: 'Advisory', title: 'Holiday advisory: preparing for the season', desc: 'Example alert — seasonal guidance on products, ingredients, and labels.' },
+];
+const TAG_BG = { 'Certification Notice': '#E8C45E', 'Product Alert': '#F6D3C4', 'Establishment Update': '#D6E6F2', 'Advisory': '#E4EFEC' };
+const FAQS = [
+  { q: 'What does kosher certification mean?', a: 'Certification confirms that a product, its ingredients, and the way it is produced meet the requirements of kashrut, verified through ongoing supervision.' },
+  { q: 'How do I know a product is certified by KVH?', a: 'Look for the KVH symbol on the packaging and confirm current status with the KVH search. Kosher Alerts list any changes or corrections.' },
+  { q: 'How does a company begin certification?', a: 'Submit a certification inquiry. Our team reviews your products, ingredients, and facilities, then outlines next steps and an inspection schedule.' },
+  { q: 'How do I report a kosher concern?', a: 'Use the contact form and choose “Report a kosher concern”. Include the product name, packaging details, and where it was purchased.' },
+];
+const PILLARS = [
+  { n: '01', t: 'Education', d: 'Clear, practical guidance on kashrut for consumers, operators, and manufacturers.', slot: 'about-photo', ph: 'Photo — teaching or a mashgiach at work' },
+  { n: '02', t: 'Communication', d: 'Timely Kosher Alerts and a direct line to our team when questions come up.', slot: 'about-photo-2', ph: 'Photo — team in conversation in a kitchen' },
+  { n: '03', t: 'Certification', d: 'Rigorous, ongoing supervision that businesses and consumers can rely on.', slot: 'about-photo-3', ph: 'Photo — inspection on a production floor' },
+];
+const AUD = {
+  Consumers: [
+    { t: 'Check a product', d: 'Confirm a product or restaurant is KVH certified.', cta: 'Search now', href: '#search' },
+    { t: 'Read Kosher Alerts', d: 'Recent notices, corrections, and advisories.', cta: 'View alerts', href: '#alerts' },
+    { t: 'Kosher basics', d: 'Symbols, designations, and what they mean.', cta: 'Learn more', href: '#resources' },
+  ],
+  Businesses: [
+    { t: 'Get certified', d: 'Start an application for your products or kitchen.', cta: 'Begin', href: '#contact' },
+    { t: 'Certification services', d: 'Manufacturing, food service, ingredients, and brands.', cta: 'Explore', href: '#certification' },
+    { t: 'Business resources', d: 'Prepare your facility and documentation.', cta: 'Read guides', href: '#resources' },
+  ],
+};
+const BRANDS = [['jn-kidds','JN Kidds',56],['freshbox-farms','FreshBox Farms',80],['brandeis','Brandeis University',52],['butcherie','The Butcherie',80],['veggie-crust','Veggie Crust',64],['zatar',"Za'tar",44],['jp-licks','J.P. Licks',84],['gold-medal','Gold Medal Bakery',60],['bonapita','Bonapita Kitchen',48],['stop-shop','Stop & Shop',20],['trader-joes',"Trader Joe's",36],['star-market','Star Market',44]];
+
+class Component extends DCLogic {
+  state = { scrolled: false, isMobile: false, menuOpen: false, slide: 0, aud: 'Consumers', tab: 0, query: '', searched: '', filter: 'All', pillar: 0, faqOpen: 0, errors: {}, submitted: false };
+
+  componentDidMount() {
+    this.onScroll = () => { const s = window.scrollY > 24; if (s !== this.state.scrolled) this.setState({ scrolled: s }); };
+    this.onResize = () => { const m = window.innerWidth < 980; if (m !== this.state.isMobile) this.setState({ isMobile: m, menuOpen: false }); };
+    window.addEventListener('scroll', this.onScroll, { passive: true });
+    window.addEventListener('resize', this.onResize);
+    this.onScroll(); this.onResize();
+    this.reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    this.startTimer();
+    if (!this.reduced && 'IntersectionObserver' in window) {
+      this.io = new IntersectionObserver((entries) => entries.forEach((e) => {
+        if (e.isIntersecting) { e.target.style.opacity = '1'; e.target.style.transform = 'none'; this.io.unobserve(e.target); }
+      }), { rootMargin: '0px 0px -8% 0px' });
+      setTimeout(() => document.querySelectorAll('[data-reveal]').forEach((el) => {
+        if (el.getBoundingClientRect().top < window.innerHeight * 0.92) return;
+        el.style.opacity = '0'; el.style.transform = 'translateY(24px)';
+        el.style.transition = 'opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1)';
+        this.io.observe(el);
+      }), 50);
+    }
+  }
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.onScroll);
+    window.removeEventListener('resize', this.onResize);
+    clearInterval(this.timer); this.io && this.io.disconnect();
+  }
+  startTimer() {
+    clearInterval(this.timer);
+    if (this.reduced || !(this.props.autoplay ?? true)) return;
+    this.timer = setInterval(() => this.setState((s) => ({ slide: (s.slide + 1) % SLIDES.length })), 6500);
+  }
+  goSlide(i) { this.cycle = (this.cycle || 0) + 1; this.setState({ slide: (i + SLIDES.length) % SLIDES.length }); this.startTimer(); }
+
+  validate(f) {
+    const e = {};
+    if (!f.name.value.trim()) e.name = 'Please enter your name.';
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email.value.trim())) e.email = 'Please enter a valid email address.';
+    if (!f.type.value) e.type = 'Please choose an inquiry type.';
+    if (f.message.value.trim().length < 10) e.message = 'Please add a few more details.';
+    return e;
+  }
+
+  renderVals() {
+    const s = this.state;
+    const auto = !this.reduced && (this.props.autoplay ?? true);
+    const tabs = ['Establishments', 'Products', 'Companies'];
+    const cats = ['All', 'Certification Notice', 'Product Alert', 'Establishment Update', 'Advisory'];
+    const seg = (on) => ({ bg: on ? '#FFFFFF' : 'transparent', color: on ? '#10201C' : '#3D4A46', shadow: on ? '0 2px 8px rgba(14,47,40,.12)' : 'none' });
+    const nav = [
+      { label: 'About KVH', href: '#about' }, { label: 'Certification', href: '#certification' },
+      { label: 'Search', href: '#search' }, { label: 'Kosher Alerts', href: '#alerts' },
+      { label: 'Resources', href: '#resources' }, { label: 'Contact', href: '#contact' },
+    ];
+    const track = [...BRANDS, ...BRANDS];
+    return {
+      nav,
+      showNotice: this.props.showNotice ?? true,
+      latestAlert: ALERTS[0],
+      isDesktop: !s.isMobile, isMobile: s.isMobile,
+      menuVisible: s.isMobile && s.menuOpen,
+      menuLabel: s.menuOpen ? 'Close' : 'Menu',
+      toggleMenu: () => this.setState({ menuOpen: !s.menuOpen }),
+      closeMenu: () => this.setState({ menuOpen: false }),
+      headerPad: s.scrolled ? '10px' : '18px',
+      slideCounter: String(s.slide + 1).padStart(2, '0') + ' / ' + String(SLIDES.length).padStart(2, '0'),
+      headerShadow: s.scrolled ? '0 4px 20px rgba(14,47,40,.08)' : 'none',
+      logoH: s.isMobile ? '34px' : (s.scrolled ? '38px' : '46px'),
+      heroAspect: s.isMobile ? '4/5' : '5/6',
+      slides: SLIDES.map((sl, i) => ({ ...sl, opacity: i === s.slide ? 1 : 0, pe: i === s.slide ? 'auto' : 'none' })),
+      slide: SLIDES[s.slide],
+      prevSlide: () => this.goSlide(s.slide - 1),
+      nextSlide: () => this.goSlide(s.slide + 1),
+      dots: SLIDES.map((sl, i) => ({
+        label: sl.tag, go: () => this.goSlide(i),
+        fill: i < s.slide || (i === s.slide && !auto) ? h('span', { style: { position: 'absolute', inset: 0, background: '#FFFFFF' } })
+          : i === s.slide ? h('span', { key: 'f' + s.slide + '-' + (this.cycle || 0), style: { position: 'absolute', inset: 0, background: '#FFFFFF', transformOrigin: 'left', animation: 'kvhFill 6.5s linear forwards' } }) : null,
+      })),
+      onHeroSearch: (e) => { e.preventDefault(); const q = e.target.q.value.trim(); if (!q) return; window.open('https://kvhweb.org/product_search/index?full_text_search=' + encodeURIComponent(q), '_blank', 'noopener'); },
+      audiences: Object.keys(AUD).map((a) => ({ label: 'For ' + a.toLowerCase(), onClick: () => this.setState({ aud: a }), ...seg(a === s.aud) })),
+      quickLinks: AUD[s.aud],
+      services: [
+        { icon: ICONS.factory, title: 'Food Manufacturers', desc: 'Kosher certification for food manufacturers and producers.' },
+        { icon: ICONS.utensils, title: 'Restaurants & Food Service', desc: 'Reliable certification and ongoing kosher supervision.' },
+        { icon: ICONS.leaf, title: 'Ingredients', desc: 'Certification for ingredients and raw materials used by manufacturers.' },
+        { icon: ICONS.tag, title: 'Private Label & Brands', desc: 'Kosher certification solutions for growing consumer brands.' },
+      ],
+      tabs: tabs.map((t, i) => ({ label: t, onClick: () => this.setState({ tab: i, searched: '' }), ...seg(i === s.tab) })),
+      query: s.query,
+      onQuery: (e) => this.setState({ query: e.target.value }),
+      searchPlaceholder: ['Search establishments by name, city, or type', 'Search products by name, brand, or UPC', 'Search certified companies'][s.tab],
+      onSearch: (e) => { e.preventDefault(); this.setState({ searched: s.query.trim() }); },
+      embedTitle: s.searched ? `Results for “${s.searched}” will appear here` : `${tabs[s.tab]} search will load here`,
+      filters: cats.map((c) => ({ label: c === 'All' ? 'All alerts' : c, onClick: () => this.setState({ filter: c }), border: c === s.filter ? '#1F615B' : 'transparent', color: c === s.filter ? '#10201C' : '#3D4A46', weight: c === s.filter ? 600 : 500 })),
+      alerts: ALERTS.filter((a) => s.filter === 'All' || a.category === s.filter).map((a) => ({ ...a, catColor: a.category === 'Product Alert' ? '#A3341A' : '#1F615B' })),
+      ...(() => { const l = ALERTS.filter((x) => s.filter === 'All' || x.category === s.filter).map((x) => ({ ...x, catColor: x.category === 'Product Alert' ? '#A3341A' : '#1F615B' })); return { hasAlerts: l.length > 0, featured: l[0] || {}, otherAlerts: l.slice(1), noOtherAlerts: l.length === 1 }; })(),
+      alertCols: s.isMobile ? 'minmax(0,1fr)' : '120px minmax(0,1fr) auto',
+      alertLinkJustify: s.isMobile ? 'start' : 'end',
+      marquee: h('div', { style: { display: 'flex', width: 'max-content', gap: 16, animation: this.reduced ? 'none' : 'kvhMarquee 50s linear infinite' } },
+        track.map(([file, name, ht], i) => h('div', { key: i, 'aria-hidden': i >= BRANDS.length, style: { flex: 'none', width: 220, height: 120, borderRadius: 8, background: '#FFFFFF', border: '1px solid rgba(16,32,28,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 16, boxSizing: 'border-box' } }, h('img', { src: 'assets/brands/' + file + '.png', alt: i >= BRANDS.length ? '' : name, style: { maxWidth: '100%', height: ht, objectFit: 'contain', display: 'block' } })))),
+      pillars: PILLARS.map((p, i) => { const on = s.pillar === i; return { ...p, open: on, sign: on ? '−' : '+', bg: on ? '#FFFFFF' : 'transparent', numBg: on ? '#E8C45E' : '#E4EFEC', numColor: on ? '#10201C' : '#1F615B', toggle: () => this.setState({ pillar: i }) }; }),
+      pillarImgs: PILLARS.map((p, i) => ({ slot: p.slot, ph: p.ph, opacity: s.pillar === i ? 1 : 0, pe: s.pillar === i ? 'auto' : 'none' })),
+      resCats: ['Kosher Basics', 'Certification Information', 'Consumer Resources', 'Business Resources', 'FAQs'],
+      articles: [
+        { cat: 'Kosher Basics', title: 'Understanding kosher certification', desc: 'A straightforward introduction to kosher certification.', slot: 'res-photo-1', ph: 'Photo — ingredients on a counter' },
+        { cat: 'Consumer Resources', title: 'Reading kosher symbols and designations', desc: 'Dairy, meat, pareve, and what the letters beside a symbol mean.', slot: 'res-photo-2', ph: 'Photo — close-up of packaging' },
+        { cat: 'Business Resources', title: 'Preparing your facility for certification', desc: 'Ingredients, equipment, and documentation to have ready.', slot: 'res-photo-3', ph: 'Photo — commercial kitchen' },
+      ],
+      faqs: FAQS.map((f, i) => { const on = s.faqOpen === i; return { ...f, open: on, sign: on ? '−' : '+', signBg: on ? '#1F615B' : '#E4EFEC', signColor: on ? '#FFFFFF' : '#1F615B', toggle: () => this.setState({ faqOpen: on ? -1 : i }) }; }),
+      steps: [{ n: '1', t: 'Submit an inquiry' }, { n: '2', t: 'Product, ingredient, and facility review' }, { n: '3', t: 'Inspection and certification' }],
+      contactLines: [
+        { icon: ICONS.badge, k: 'Certification', v: 'New applications & existing clients' },
+        { icon: ICONS.help, k: 'Consumers', v: 'Product questions & concerns' },
+        { icon: ICONS.mail, k: 'General', v: 'Media, education & partnerships' },
+      ],
+      submitted: s.submitted, showForm: !s.submitted, errors: s.errors,
+      onSubmit: (e) => { e.preventDefault(); const errors = this.validate(e.target); this.setState({ errors, submitted: Object.keys(errors).length === 0 }); },
+      resetForm: () => this.setState({ submitted: false, errors: {} }),
+      footerCols: [
+        { title: 'KVH', links: [{ label: 'About', href: '#about' }, { label: 'Certification', href: '#certification' }, { label: 'Contact', href: '#contact' }] },
+        { title: 'Resources', links: [{ label: 'Kosher Basics', href: '#resources' }, { label: 'FAQs', href: '#faq' }, { label: 'Consumer Resources', href: '#resources' }, { label: 'Business Resources', href: '#resources' }] },
+        { title: 'Search', links: [{ label: 'Find an Establishment', href: '#search' }, { label: 'Find a Product', href: '#search' }, { label: 'Kosher Alerts', href: '#alerts' }] },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

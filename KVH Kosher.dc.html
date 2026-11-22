@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=DM+Mono&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+html{scroll-behavior:smooth}
+body{margin:0;background:#F2EEE6;color:#0D0D0D;font-family:'DM Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#0D0D0D;text-decoration:none}
+a:hover{color:#7A5F30}
+input,select,textarea,button{font-family:inherit}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</helmet>
+
+<sc-if value="{{ showNotice }}" hint-placeholder-val="{{ true }}">
+<div style="background:#0D0D0D;color:#F2EEE6;font-size:13px">
+  <div style="max-width:1280px;margin:0 auto;padding:10px clamp(24px,5vw,80px);display:flex;gap:16px;align-items:center;flex-wrap:wrap">
+    <span style="font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#C9B07F">Kosher Alert</span>
+    <span style="flex:1 1 240px;color:#D9D4CA">{{ latestAlert.title }}</span>
+    <a href="#alerts" style="color:#F2EEE6;font-weight:500;border-bottom:1px solid #B39A6B;padding-bottom:1px">Read alert →</a>
+  </div>
+</div>
+</sc-if>
+
+<header style="position:sticky;top:0;z-index:50;background:#F2EEE6;border-bottom:1px solid {{ headerBorder }};transition:border-color .3s ease,box-shadow .3s ease;box-shadow:{{ headerShadow }}">
+  <div style="max-width:1280px;margin:0 auto;padding:{{ headerPad }} clamp(24px,5vw,80px);display:flex;align-items:center;gap:32px;transition:padding .3s ease">
+    <a href="#top" aria-label="KVH Kosher home" style="display:block;flex:none;line-height:0">
+      <img src="assets/kvh-logo.png" alt="KVH Kosher — Education, Communication, Certification" style="display:block;height:{{ logoH }};width:auto;mix-blend-mode:multiply;transition:height .3s ease">
+    </a>
+    <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
+      <nav style="display:flex;gap:28px;flex:1;justify-content:center;font-size:14px;font-weight:500">
+        <sc-for list="{{ nav }}" as="n" hint-placeholder-count="6">
+          <a href="{{ n.href }}" style="color:#0D0D0D;padding:8px 0;transition:color .15s ease" style-hover="color:#7A5F30">{{ n.label }}</a>
+        </sc-for>
+      </nav>
+      <a href="#search" style="flex:none;background:#0D0D0D;color:#F2EEE6;font-size:14px;font-weight:500;padding:12px 20px;transition:background .15s ease" style-hover="background:#2A2A2A;color:#F2EEE6">Find a Certified Product</a>
+    </sc-if>
+    <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
+      <div style="flex:1"></div>
+      <button onClick="{{ toggleMenu }}" aria-label="Menu" style="width:48px;height:48px;background:none;border:1px solid rgba(0,0,0,.15);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;font-family:'DM Mono',monospace;color:#0D0D0D">{{ menuLabel }}</button>
+    </sc-if>
+  </div>
+  <sc-if value="{{ menuVisible }}" hint-placeholder-val="{{ false }}">
+    <nav style="border-top:1px solid rgba(0,0,0,.1);background:#F2EEE6;padding:8px clamp(24px,5vw,80px) 24px;display:flex;flex-direction:column">
+      <sc-for list="{{ nav }}" as="n" hint-placeholder-count="6">
+        <a href="{{ n.href }}" onClick="{{ closeMenu }}" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:500;padding:12px 0;border-bottom:1px solid rgba(0,0,0,.08);color:#0D0D0D">{{ n.label }}</a>
+      </sc-for>
+      <a href="#search" onClick="{{ closeMenu }}" style="margin-top:24px;background:#0D0D0D;color:#F2EEE6;font-weight:500;padding:16px 20px;text-align:center">Find a Certified Product</a>
+    </nav>
+  </sc-if>
+</header>
+
+<main id="top">
+
+<sc-if value="{{ heroOverlap }}" hint-placeholder-val="{{ true }}">
+<section data-screen-label="Hero" style="position:relative;background:#0D0D0D">
+  <div style="position:relative;height:clamp(440px,82vh,860px)">
+    <image-slot id="hero-photo" shape="rect" placeholder="Hero photograph — food production line, bakery, or ingredients (editorial, wide)"></image-slot>
+  </div>
+  <div style="position:{{ platePos }};left:0;right:0;bottom:0;pointer-events:none">
+    <div style="max-width:1280px;margin:0 auto;padding:0 {{ platePadX }}">
+      <div data-reveal="1" style="pointer-events:auto;background:#0D0D0D;color:#F2EEE6;max-width:660px;padding:clamp(32px,4vw,56px) clamp(24px,4vw,56px) clamp(32px,4vw,48px)">
+        <div style="display:flex;align-items:center;gap:16px;margin-bottom:28px">
+          <span style="width:32px;height:1px;background:#B39A6B"></span>
+          <span style="font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#C9B07F">Kosher certification you can trust</span>
+        </div>
+        <h1 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(40px,5.2vw,72px);line-height:1.02;letter-spacing:-.01em;margin:0 0 24px;text-wrap:balance">A standard of kashrut. <em style="font-style:italic;color:#D9C9A3">A commitment to excellence.</em></h1>
+        <p style="font-size:17px;line-height:1.6;color:#CFCAC0;margin:0 0 36px;max-width:480px;text-wrap:pretty">KVH Kosher provides trusted kosher certification, education, and communication for businesses and consumers.</p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <a href="#search" style="background:#F2EEE6;color:#0D0D0D;font-weight:500;font-size:15px;padding:16px 24px;transition:background .15s ease" style-hover="background:#FFFFFF;color:#0D0D0D">Find a Certified Product</a>
+          <a href="#certification" style="border:1px solid rgba(255,255,255,.28);color:#F2EEE6;font-weight:500;font-size:15px;padding:15px 24px;transition:border-color .15s ease" style-hover="border-color:#B39A6B;color:#F2EEE6">Learn About Certification</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</sc-if>
+
+<sc-if value="{{ heroSplit }}" hint-placeholder-val="{{ false }}">
+<section data-screen-label="Hero" style="max-width:1280px;margin:0 auto;padding:clamp(40px,6vw,88px) clamp(24px,5vw,80px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,440px),1fr));gap:clamp(40px,5vw,72px);align-items:center">
+  <div data-reveal="1">
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:28px">
+      <span style="width:32px;height:1px;background:#B39A6B"></span>
+      <span style="font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#7A5F30">Kosher certification you can trust</span>
+    </div>
+    <h1 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(44px,5.6vw,80px);line-height:1;letter-spacing:-.01em;margin:0 0 28px;text-wrap:balance">A standard of kashrut. <em style="font-style:italic;color:#5E4A26">A commitment to excellence.</em></h1>
+    <p style="font-size:18px;line-height:1.6;color:#4A4741;margin:0 0 36px;max-width:480px;text-wrap:pretty">KVH Kosher provides trusted kosher certification, education, and communication for businesses and consumers.</p>
+    <div style="display:flex;gap:12px;flex-wrap:wrap">
+      <a href="#search" style="background:#0D0D0D;color:#F2EEE6;font-weight:500;font-size:15px;padding:16px 24px" style-hover="background:#2A2A2A;color:#F2EEE6">Find a Certified Product</a>
+      <a href="#certification" style="border:1px solid rgba(0,0,0,.2);color:#0D0D0D;font-weight:500;font-size:15px;padding:15px 24px" style-hover="border-color:#B39A6B;color:#0D0D0D">Learn About Certification</a>
+    </div>
+  </div>
+  <div style="position:relative;aspect-ratio:4/5;max-height:760px">
+    <image-slot id="hero-photo" shape="rect" placeholder="Hero photograph — food production, bakery, or ingredients"></image-slot>
+  </div>
+</section>
+</sc-if>
+
+<section id="certification" data-screen-label="Certification" style="scroll-margin-top:72px;max-width:1280px;margin:0 auto;padding:clamp(72px,9vw,128px) clamp(24px,5vw,80px)">
+  <div data-reveal="1" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:24px 64px;align-items:end;margin-bottom:64px">
+    <div>
+      <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px">
+        <span style="width:32px;height:1px;background:#B39A6B"></span>
+        <span style="font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#7A5F30">Certification</span>
+      </div>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(36px,4.2vw,56px);line-height:1.05;margin:0;text-wrap:balance">Certification built on trust</h2>
+    </div>
+    <p style="font-size:17px;line-height:1.65;color:#4A4741;margin:0;max-width:520px;text-wrap:pretty">From national manufacturers to neighbourhood kitchens, KVH supervision follows your product from ingredient to shelf — with clear standards and a direct line to our team.</p>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));border-top:1px solid #0D0D0D">
+    <sc-for list="{{ services }}" as="s" hint-placeholder-count="4">
+      <a href="#contact" data-reveal="1" style="display:flex;flex-direction:column;gap:16px;padding:32px 28px 36px 0;border-bottom:1px solid rgba(0,0,0,.12);color:#0D0D0D;transition:color .15s ease" style-hover="color:#0D0D0D">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding-right:8px">
+          <span style="width:28px;height:28px;color:#7A5F30">{{ s.icon }}</span>
+          <span style="font-family:'DM Mono',monospace;font-size:12px;color:#6B675F">{{ s.num }}</span>
+        </div>
+        <h3 style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:28px;line-height:1.1;margin:8px 0 0">{{ s.title }}</h3>
+        <p style="font-size:15px;line-height:1.6;color:#4A4741;margin:0;text-wrap:pretty">{{ s.desc }}</p>
+        <span style="margin-top:auto;font-size:14px;font-weight:500;padding-top:8px">Enquire →</span>
+      </a>
+    </sc-for>
+  </div>
+</section>
+
+<section id="search" data-screen-label="Search" style="scroll-margin-top:72px;background:#0D0D0D;color:#F2EEE6">
+  <div style="max-width:1280px;margin:0 auto;padding:clamp(72px,9vw,120px) clamp(24px,5vw,80px)">
+    <div data-reveal="1" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:24px 64px;align-items:end;margin-bottom:48px">
+      <div>
+        <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px">
+          <span style="width:32px;height:1px;background:#B39A6B"></span>
+          <span style="font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#C9B07F">Kosher search</span>
+        </div>
+        <h2 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(36px,4.2vw,56px);line-height:1.05;margin:0;text-wrap:balance">Find KVH certified products &amp; establishments</h2>
+      </div>
+      <p style="font-size:17px;line-height:1.65;color:#CFCAC0;margin:0;max-width:520px">Search the KVH database to find certified establishments, products, companies, and kosher information.</p>
+    </div>
+
+    <div data-reveal="1" style="background:#F2EEE6;color:#0D0D0D">
+      <div role="tablist" style="display:flex;border-bottom:1px solid rgba(0,0,0,.12);overflow-x:auto">
+        <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="3">
+          <button role="tab" onClick="{{ t.onClick }}" style="flex:none;background:none;border:none;border-bottom:2px solid {{ t.border }};margin-bottom:-1px;padding:20px 28px;font-size:15px;font-weight:500;color:{{ t.color }};cursor:pointer;transition:color .15s ease">{{ t.label }}</button>
+        </sc-for>
+      </div>
+      <form onSubmit="{{ onSearch }}" style="display:flex;gap:12px;padding:28px clamp(20px,3vw,32px);border-bottom:1px solid rgba(0,0,0,.08)">
+        <label style="flex:1 1 0;min-width:0;display:flex;align-items:center;gap:12px;background:#FFFFFF;border:1px solid rgba(0,0,0,.18);padding:0 18px;min-height:56px">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6B675F" stroke-width="1.5" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+          <input name="q" placeholder="{{ searchPlaceholder }}" style="flex:1;border:none;outline:none;background:none;font-size:16px;color:#0D0D0D;min-width:0">
+        </label>
+        <button type="submit" style="flex:none;min-height:58px;padding:0 clamp(18px,3vw,32px);background:#0D0D0D;color:#F2EEE6;border:none;font-size:15px;font-weight:500;cursor:pointer" style-hover="background:#2A2A2A">Search</button>
+      </form>
+      <div style="padding:clamp(20px,3vw,32px)">
+        <div id="kvh-search-embed" data-embed="kvh-establishment-search" style="position:relative;min-height:440px;border:1px dashed rgba(0,0,0,.22);background:#FFFFFF;display:flex;align-items:center;justify-content:center;text-align:center;padding:32px">
+          <div style="max-width:420px">
+            <div style="font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#7A5F30;margin-bottom:16px">#kvh-search-embed</div>
+            <p style="font-family:'Cormorant Garamond',serif;font-size:26px;line-height:1.2;margin:0 0 12px">{{ embedTitle }}</p>
+            <p style="font-size:14px;line-height:1.6;color:#5E5A53;margin:0">KVH establishment search embed goes here. Replace this container’s contents with the search iframe or application.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="alerts" data-screen-label="Kosher Alerts" style="scroll-margin-top:72px;max-width:1280px;margin:0 auto;padding:clamp(72px,9vw,128px) clamp(24px,5vw,80px)">
+  <div data-reveal="1" style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:24px;margin-bottom:40px">
+    <div>
+      <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px">
+        <span style="width:8px;height:8px;background:#9A3B1E"></span>
+        <span style="font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#7A5F30">Notices</span>
+      </div>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(40px,5vw,64px);line-height:1;margin:0 0 12px">Kosher Alerts</h2>
+      <p style="font-size:17px;color:#4A4741;margin:0">Important updates and certification notices from KVH Kosher.</p>
+    </div>
+    <a href="#alerts" style="font-size:14px;font-weight:500;border-bottom:1px solid #B39A6B;padding-bottom:2px">View all alerts →</a>
+  </div>
+  <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px">
+    <sc-for list="{{ filters }}" as="f" hint-placeholder-count="5">
+      <button onClick="{{ f.onClick }}" style="min-height:40px;padding:0 16px;font-size:13px;font-weight:500;border:1px solid {{ f.border }};background:{{ f.bg }};color:{{ f.color }};cursor:pointer;transition:all .15s ease">{{ f.label }}</button>
+    </sc-for>
+  </div>
+  <div style="border-top:1px solid #0D0D0D;margin-top:24px">
+    <sc-for list="{{ alerts }}" as="a" hint-placeholder-count="4">
+      <a href="#alerts" style="display:grid;grid-template-columns:{{ alertCols }};gap:12px 40px;padding:28px 0;border-bottom:1px solid rgba(0,0,0,.12);color:#0D0D0D;transition:background .2s ease" style-hover="background:rgba(255,255,255,.55);color:#0D0D0D">
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <span style="font-family:'DM Mono',monospace;font-size:13px;color:#4A4741">{{ a.date }}</span>
+          <span style="align-self:flex-start;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:4px 8px;border-radius:2px;border:1px solid rgba(0,0,0,.18);color:#2A2A2A">{{ a.category }}</span>
+        </div>
+        <div style="min-width:0">
+          <h3 style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:26px;line-height:1.15;margin:0 0 8px;text-wrap:balance">{{ a.title }}</h3>
+          <p style="font-size:15px;line-height:1.6;color:#4A4741;margin:0;max-width:620px;text-wrap:pretty">{{ a.desc }}</p>
+        </div>
+        <span style="align-self:center;justify-self:{{ alertLinkJustify }};font-size:14px;font-weight:500;white-space:nowrap">Read alert →</span>
+      </a>
+    </sc-for>
+  </div>
+</section>
+
+<section data-screen-label="Certified Brands" style="background:#FFFFFF;border-top:1px solid rgba(0,0,0,.08);border-bottom:1px solid rgba(0,0,0,.08)">
+  <div style="max-width:1280px;margin:0 auto;padding:clamp(64px,8vw,112px) clamp(24px,5vw,80px)">
+    <div data-reveal="1" style="text-align:center;margin-bottom:48px">
+      <div style="font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#7A5F30;margin-bottom:16px">Certified brands</div>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(34px,4vw,52px);line-height:1.05;margin:0">Trusted by brands you know</h2>
+    </div>
+    <div data-reveal="1" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,200px),1fr));border-top:1px solid rgba(0,0,0,.1);border-left:1px solid rgba(0,0,0,.1)">
+      <sc-for list="{{ brands }}" as="b" hint-placeholder-count="8">
+        <div style="height:136px;display:flex;align-items:center;justify-content:center;border-right:1px solid rgba(0,0,0,.1);border-bottom:1px solid rgba(0,0,0,.1);color:#8C8C8C;filter:grayscale(1);transition:color .2s ease" style-hover="color:#0D0D0D">
+          <span style="font-family:{{ b.font }};font-size:{{ b.size }};letter-spacing:{{ b.ls }};font-weight:600">{{ b.name }}</span>
+        </div>
+      </sc-for>
+    </div>
+    <p style="text-align:center;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#6B675F;margin:24px 0 0">Placeholder logos — replace with certified brand marks</p>
+  </div>
+</section>
+
+<section id="about" data-screen-label="About" style="scroll-margin-top:72px;max-width:1280px;margin:0 auto;padding:clamp(72px,9vw,128px) clamp(24px,5vw,80px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:clamp(40px,6vw,96px);align-items:center">
+  <div data-reveal="1" style="position:relative;aspect-ratio:4/5;max-height:720px">
+    <image-slot id="about-photo" shape="rect" placeholder="Photograph — mashgiach inspecting production, or hands at work in a kitchen"></image-slot>
+  </div>
+  <div data-reveal="1">
+
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px">
+      <span style="width:32px;height:1px;background:#B39A6B"></span>
+      <span style="font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#7A5F30">About KVH</span>
+    </div>
+    <h2 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(38px,4.4vw,60px);line-height:1.03;margin:0 0 28px;text-wrap:balance">A trusted standard of kashrut</h2>
+    <p style="font-size:18px;line-height:1.65;color:#2A2A2A;margin:0 0 20px;text-wrap:pretty">KVH Kosher provides kosher certification, education, and communication while helping businesses meet rigorous standards of kashrut.</p>
+    <p style="font-size:16px;line-height:1.7;color:#4A4741;margin:0 0 40px;text-wrap:pretty">Our rabbinic and field teams work alongside manufacturers, food service operators, and ingredient suppliers — and keep consumers informed with clear, timely information.</p>
+    <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid rgba(0,0,0,.14);margin-bottom:40px">
+      <sc-for list="{{ pillars }}" as="p" hint-placeholder-count="3">
+        <div style="padding:20px 12px 0 0;font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#2A2A2A">{{ p }}</div>
+      </sc-for>
+    </div>
+    <a href="#about" style="display:inline-block;background:#0D0D0D;color:#F2EEE6;font-weight:500;font-size:15px;padding:16px 24px" style-hover="background:#2A2A2A;color:#F2EEE6">Learn More About KVH</a>
+  </div>
+</section>
+
+<section id="resources" data-screen-label="Resources" style="scroll-margin-top:72px;border-top:1px solid rgba(0,0,0,.1)">
+  <div style="max-width:1280px;margin:0 auto;padding:clamp(72px,9vw,128px) clamp(24px,5vw,80px)">
+    <div data-reveal="1" style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:24px;margin-bottom:48px">
+      <div>
+        <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px">
+          <span style="width:32px;height:1px;background:#B39A6B"></span>
+          <span style="font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#7A5F30">Education &amp; resources</span>
+        </div>
+        <h2 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(36px,4.2vw,56px);line-height:1.05;margin:0">The KVH resource library</h2>
+      </div>
+      <a href="#resources" style="font-size:14px;font-weight:500;border-bottom:1px solid #B39A6B;padding-bottom:2px">Browse all resources →</a>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:0 40px">
+      <sc-for list="{{ articles }}" as="r" hint-placeholder-count="4">
+        <a href="#resources" data-reveal="1" style="display:flex;flex-direction:column;gap:14px;padding:28px 0 32px;border-top:1px solid #0D0D0D;color:#0D0D0D" style-hover="color:#0D0D0D">
+          <span style="font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#7A5F30">{{ r.cat }}</span>
+          <h3 style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:28px;line-height:1.1;margin:0;text-wrap:balance">{{ r.title }}</h3>
+          <p style="font-size:15px;line-height:1.6;color:#4A4741;margin:0;text-wrap:pretty">{{ r.desc }}</p>
+          <span style="font-size:14px;font-weight:500;margin-top:auto">Read article →</span>
+        </a>
+      </sc-for>
+    </div>
+
+    <div id="faq" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:32px 64px;margin-top:clamp(56px,7vw,96px)">
+      <div data-reveal="1">
+        <span style="font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#7A5F30">FAQs</span>
+        <h3 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(30px,3.2vw,40px);line-height:1.1;margin:14px 0 16px">Common questions</h3>
+        <p style="font-size:15px;line-height:1.6;color:#4A4741;margin:0;max-width:320px">Can’t find what you need? <a href="#contact" style="border-bottom:1px solid #B39A6B">Ask our team</a>.</p>
+      </div>
+      <div style="grid-column:span 2;min-width:0;border-top:1px solid #0D0D0D">
+        <sc-for list="{{ faqs }}" as="q" hint-placeholder-count="4">
+          <div style="border-bottom:1px solid rgba(0,0,0,.12)">
+            <button onClick="{{ q.toggle }}" aria-expanded="{{ q.open }}" style="width:100%;display:flex;justify-content:space-between;align-items:center;gap:24px;background:none;border:none;padding:24px 0;text-align:left;cursor:pointer;color:#0D0D0D;font-size:18px;font-weight:500">
+              <span>{{ q.q }}</span>
+              <span style="flex:none;width:32px;height:32px;border:1px solid rgba(0,0,0,.18);display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:16px;color:#7A5F30">{{ q.sign }}</span>
+            </button>
+            <sc-if value="{{ q.open }}" hint-placeholder-val="{{ false }}">
+              <p style="margin:0;padding:0 56px 28px 0;font-size:16px;line-height:1.7;color:#4A4741;text-wrap:pretty">{{ q.a }}</p>
+            </sc-if>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section data-screen-label="For Businesses" style="background:#0D0D0D;color:#F2EEE6">
+  <div style="max-width:1280px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,440px),1fr))">
+    <div style="position:relative;min-height:440px">
+      <image-slot id="business-photo" shape="rect" placeholder="Photograph — packaged goods on a production line or quality control"></image-slot>
+    </div>
+    <div data-reveal="1" style="padding:clamp(56px,7vw,104px) clamp(24px,5vw,80px)">
+      <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px">
+        <span style="width:32px;height:1px;background:#B39A6B"></span>
+        <span style="font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#C9B07F">For businesses</span>
+      </div>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(36px,4.2vw,56px);line-height:1.05;margin:0 0 24px;text-wrap:balance">Bring your product to the kosher market</h2>
+      <p style="font-size:17px;line-height:1.65;color:#CFCAC0;margin:0 0 36px;max-width:480px">Kosher certification opens shelves, distributors, and customers that look for a symbol they recognise. KVH makes the process clear from the first conversation.</p>
+      <div style="border-top:1px solid rgba(255,255,255,.14);margin-bottom:40px">
+        <sc-for list="{{ benefits }}" as="b" hint-placeholder-count="3">
+          <div style="display:flex;gap:20px;padding:18px 0;border-bottom:1px solid rgba(255,255,255,.12)">
+            <span style="font-family:'DM Mono',monospace;font-size:12px;color:#C9B07F;padding-top:3px">{{ b.n }}</span>
+            <div>
+              <div style="font-weight:500;font-size:16px;margin-bottom:4px">{{ b.t }}</div>
+              <div style="font-size:14px;line-height:1.55;color:#B8B2A7">{{ b.d }}</div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap">
+        <a href="#contact" style="background:#F2EEE6;color:#0D0D0D;font-weight:500;font-size:15px;padding:16px 24px" style-hover="background:#FFFFFF;color:#0D0D0D">Start the Certification Process</a>
+        <a href="#contact" style="border:1px solid rgba(255,255,255,.28);color:#F2EEE6;font-weight:500;font-size:15px;padding:15px 24px" style-hover="border-color:#B39A6B;color:#F2EEE6">Contact KVH</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" data-screen-label="Contact" style="scroll-margin-top:72px;max-width:1280px;margin:0 auto;padding:clamp(72px,9vw,128px) clamp(24px,5vw,80px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr));gap:48px clamp(40px,6vw,96px)">
+  <div data-reveal="1">
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px">
+      <span style="width:32px;height:1px;background:#B39A6B"></span>
+      <span style="font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#7A5F30">Contact</span>
+    </div>
+    <h2 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(40px,5vw,64px);line-height:1;margin:0 0 20px">Get in touch</h2>
+    <p style="font-size:17px;line-height:1.65;color:#4A4741;margin:0 0 40px;max-width:400px">For certification inquiries, consumer questions, and general information.</p>
+    <div style="border-top:1px solid rgba(0,0,0,.14)">
+      <sc-for list="{{ contactLines }}" as="c" hint-placeholder-count="3">
+        <div style="display:flex;justify-content:space-between;gap:16px;padding:16px 0;border-bottom:1px solid rgba(0,0,0,.1);font-size:15px">
+          <span style="font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#4A4741">{{ c.k }}</span>
+          <span style="color:#0D0D0D;text-align:right">{{ c.v }}</span>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div data-reveal="1">
+    <sc-if value="{{ submitted }}" hint-placeholder-val="{{ false }}">
+      <div style="background:#FFFFFF;border:1px solid rgba(0,0,0,.08);padding:48px 40px">
+        <span style="font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#7A5F30">Inquiry received</span>
+        <p style="font-family:'Cormorant Garamond',serif;font-size:32px;line-height:1.15;margin:16px 0 12px">Thank you. A member of the KVH team will be in touch.</p>
+        <button onClick="{{ resetForm }}" style="background:none;border:none;padding:0;font-size:14px;font-weight:500;border-bottom:1px solid #B39A6B;cursor:pointer;color:#0D0D0D">Send another inquiry</button>
+      </div>
+    </sc-if>
+    <sc-if value="{{ showForm }}" hint-placeholder-val="{{ true }}">
+      <form onSubmit="{{ onSubmit }}" noValidate="{{ true }}" style="background:#FFFFFF;border:1px solid rgba(0,0,0,.08);padding:clamp(24px,3.5vw,40px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:20px 20px">
+        <label style="display:flex;flex-direction:column;gap:8px;font-size:13px;font-weight:500">Name *
+          <input name="name" autocomplete="name" style="min-height:48px;padding:0 14px;border:1px solid rgba(0,0,0,.18);background:#FFFFFF;font-size:15px;outline-color:#B39A6B">
+          <sc-if value="{{ errors.name }}" hint-placeholder-val="{{ false }}"><span style="color:#9A3B1E;font-weight:400;font-size:13px">{{ errors.name }}</span></sc-if>
+        </label>
+        <label style="display:flex;flex-direction:column;gap:8px;font-size:13px;font-weight:500">Email *
+          <input name="email" type="email" autocomplete="email" style="min-height:48px;padding:0 14px;border:1px solid rgba(0,0,0,.18);background:#FFFFFF;font-size:15px;outline-color:#B39A6B">
+          <sc-if value="{{ errors.email }}" hint-placeholder-val="{{ false }}"><span style="color:#9A3B1E;font-weight:400;font-size:13px">{{ errors.email }}</span></sc-if>
+        </label>
+        <label style="display:flex;flex-direction:column;gap:8px;font-size:13px;font-weight:500">Company
+          <input name="company" autocomplete="organization" style="min-height:48px;padding:0 14px;border:1px solid rgba(0,0,0,.18);background:#FFFFFF;font-size:15px;outline-color:#B39A6B">
+        </label>
+        <label style="display:flex;flex-direction:column;gap:8px;font-size:13px;font-weight:500">Phone
+          <input name="phone" type="tel" autocomplete="tel" style="min-height:48px;padding:0 14px;border:1px solid rgba(0,0,0,.18);background:#FFFFFF;font-size:15px;outline-color:#B39A6B">
+        </label>
+        <label style="grid-column:1/-1;display:flex;flex-direction:column;gap:8px;font-size:13px;font-weight:500">Inquiry type *
+          <select name="type" style="min-height:48px;padding:0 12px;border:1px solid rgba(0,0,0,.18);background:#FFFFFF;font-size:15px;color:#0D0D0D;border-radius:0;outline-color:#B39A6B">
+            <option value="">Select an inquiry type</option>
+            <option>Certification inquiry</option>
+            <option>Consumer question</option>
+            <option>Report a kosher concern</option>
+            <option>General information</option>
+          </select>
+          <sc-if value="{{ errors.type }}" hint-placeholder-val="{{ false }}"><span style="color:#9A3B1E;font-weight:400;font-size:13px">{{ errors.type }}</span></sc-if>
+        </label>
+        <label style="grid-column:1/-1;display:flex;flex-direction:column;gap:8px;font-size:13px;font-weight:500">Message *
+          <textarea name="message" rows="4" style="padding:12px 14px;border:1px solid rgba(0,0,0,.18);background:#FFFFFF;font-size:15px;resize:vertical;outline-color:#B39A6B"></textarea>
+          <sc-if value="{{ errors.message }}" hint-placeholder-val="{{ false }}"><span style="color:#9A3B1E;font-weight:400;font-size:13px">{{ errors.message }}</span></sc-if>
+        </label>
+        <div style="grid-column:1/-1;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:16px;padding-top:4px">
+          <span style="font-size:13px;color:#5E5A53">* Required</span>
+          <button type="submit" style="min-height:52px;padding:0 28px;background:#0D0D0D;color:#F2EEE6;border:none;font-size:15px;font-weight:500;cursor:pointer" style-hover="background:#2A2A2A">Submit Inquiry</button>
+        </div>
+      </form>
+    </sc-if>
+  </div>
+</section>
+
+</main>
+
+<footer style="background:#0D0D0D;color:#F2EEE6">
+  <div style="max-width:1280px;margin:0 auto;padding:clamp(64px,8vw,104px) clamp(24px,5vw,80px) 40px">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:48px 40px;padding-bottom:64px;border-bottom:1px solid rgba(255,255,255,.12)">
+      <div style="grid-column:span 2;min-width:0">
+        <img src="assets/kvh-logo.png" alt="KVH Kosher — Education, Communication, Certification" style="display:block;width:100%;max-width:320px;height:auto;filter:invert(1);mix-blend-mode:screen;margin-bottom:28px">
+        <p style="font-size:15px;line-height:1.6;color:#B8B2A7;margin:0;max-width:340px">Trusted kosher certification, education, and communication for businesses and consumers.</p>
+      </div>
+      <sc-for list="{{ footerCols }}" as="col" hint-placeholder-count="3">
+        <div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;margin-bottom:20px">{{ col.title }}</div>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <sc-for list="{{ col.links }}" as="l" hint-placeholder-count="3">
+              <a href="{{ l.href }}" style="color:#CFCAC0;font-size:15px;transition:color .15s ease" style-hover="color:#C9B07F">{{ l.label }}</a>
+            </sc-for>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;padding-top:28px;font-size:13px;color:#B8B2A7">
+      <span>© 2026 KVH Kosher</span>
+      <div style="display:flex;gap:24px">
+        <a href="#top" style="color:#B8B2A7" style-hover="color:#F2EEE6">Privacy Policy</a>
+        <a href="#top" style="color:#B8B2A7" style-hover="color:#F2EEE6">Terms</a>
+      </div>
+    </div>
+  </div>
+</footer>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;heroLayout&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;overlap&quot;,&quot;split&quot;],&quot;default&quot;:&quot;overlap&quot;,&quot;tsType&quot;:&quot;'overlap' | 'split'&quot;,&quot;section&quot;:&quot;Layout&quot;},&quot;showNotice&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Layout&quot;}}">
+const ico = (paths) => React.createElement('svg', { width: 28, height: 28, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 1.25, strokeLinecap: 'round', strokeLinejoin: 'round' }, paths.map((d, i) => React.createElement('path', { key: i, d })));
+const ICONS = {
+  factory: ico(['M2 20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8l-7 5V8l-7 5V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z', 'M17 18h1', 'M12 18h1', 'M7 18h1']),
+  utensils: ico(['M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2', 'M7 2v20', 'M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7']),
+  leaf: ico(['M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z', 'M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12']),
+  tag: ico(['M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z', 'M7.5 7.5h.01']),
+};
+const ALERTS = [
+  { date: 'October 7, 2026', category: 'Certification Notice', title: 'Important kosher certification notice', desc: 'Example alert — a summary of the notice, the products or establishments affected, and what consumers should do.' },
+  { date: 'September 29, 2026', category: 'Product Alert', title: 'Labeling notice: [Product name] bearing an unauthorized symbol', desc: 'Example alert — identifies the product, lot codes, and the status of the kosher symbol shown on the packaging.' },
+  { date: 'September 18, 2026', category: 'Establishment Update', title: '[Establishment name] is no longer under KVH supervision', desc: 'Example alert — effective date of the change and guidance for customers of the establishment.' },
+  { date: 'September 4, 2026', category: 'Advisory', title: 'Holiday advisory: preparing for the season', desc: 'Example alert — seasonal guidance on products, ingredients, and what to look for on labels.' },
+  { date: 'August 21, 2026', category: 'Product Alert', title: 'Dairy status correction: [Product name]', desc: 'Example alert — correction to the dairy designation on a specific product run.' },
+];
+const FAQS = [
+  { q: 'What does kosher certification mean?', a: 'Certification confirms that a product, its ingredients, and the way it is produced meet the requirements of kashrut, verified through ongoing supervision by a certifying agency.' },
+  { q: 'How do I know a product is certified by KVH?', a: 'Look for the KVH symbol on the packaging, and confirm current status using the KVH search above. Kosher Alerts list any changes or corrections.' },
+  { q: 'How does a company begin the certification process?', a: 'Submit a certification inquiry. Our team will review your products, ingredients, and facilities, then outline the next steps and an inspection schedule.' },
+  { q: 'How do I report a kosher concern?', a: 'Use the contact form and select “Report a kosher concern”. Include the product name, packaging details, and where it was purchased.' },
+];
+
+class Component extends DCLogic {
+  state = { scrolled: false, isMobile: false, menuOpen: false, tab: 0, filter: 'All', faqOpen: 0, errors: {}, submitted: false, searched: '' };
+
+  componentDidMount() {
+    this.onScroll = () => { const s = window.scrollY > 24; if (s !== this.state.scrolled) this.setState({ scrolled: s }); };
+    this.onResize = () => { const m = window.innerWidth < 980; if (m !== this.state.isMobile) this.setState({ isMobile: m, menuOpen: false }); };
+    window.addEventListener('scroll', this.onScroll, { passive: true });
+    window.addEventListener('resize', this.onResize);
+    this.onScroll(); this.onResize();
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && 'IntersectionObserver' in window) {
+      this.io = new IntersectionObserver((entries) => entries.forEach((e) => {
+        if (e.isIntersecting) { e.target.style.opacity = '1'; e.target.style.transform = 'none'; this.io.unobserve(e.target); }
+      }), { rootMargin: '0px 0px -8% 0px' });
+      setTimeout(() => document.querySelectorAll('[data-reveal]').forEach((el) => {
+        if (el.getBoundingClientRect().top < window.innerHeight * 0.92) return;
+        el.style.opacity = '0'; el.style.transform = 'translateY(16px)';
+        el.style.transition = 'opacity .6s ease-out, transform .6s ease-out';
+        this.io.observe(el);
+      }), 50);
+    }
+  }
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.onScroll);
+    window.removeEventListener('resize', this.onResize);
+    this.io && this.io.disconnect();
+  }
+
+  validate(f) {
+    const errors = {};
+    if (!f.name.value.trim()) errors.name = 'Please enter your name.';
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email.value.trim())) errors.email = 'Please enter a valid email address.';
+    if (!f.type.value) errors.type = 'Please choose an inquiry type.';
+    if (f.message.value.trim().length < 10) errors.message = 'Please add a few more details.';
+    return errors;
+  }
+
+  renderVals() {
+    const s = this.state;
+    const layout = this.props.heroLayout ?? 'overlap';
+    const tabs = ['Establishments', 'Products', 'Companies'];
+    const cats = ['All', 'Certification Notice', 'Product Alert', 'Establishment Update', 'Advisory'];
+    const nav = [
+      { label: 'About KVH', href: '#about' }, { label: 'Certification', href: '#certification' },
+      { label: 'Search', href: '#search' }, { label: 'Kosher Alerts', href: '#alerts' },
+      { label: 'Resources', href: '#resources' }, { label: 'Contact', href: '#contact' },
+    ];
+    return {
+      nav,
+      showNotice: this.props.showNotice ?? true,
+      latestAlert: ALERTS[0],
+      isDesktop: !s.isMobile, isMobile: s.isMobile,
+      menuVisible: s.isMobile && s.menuOpen,
+      menuLabel: s.menuOpen ? 'Close' : 'Menu',
+      toggleMenu: () => this.setState({ menuOpen: !s.menuOpen }),
+      closeMenu: () => this.setState({ menuOpen: false }),
+      headerPad: s.scrolled ? '10px' : (s.isMobile ? '14px' : '20px'),
+      headerBorder: s.scrolled ? 'rgba(0,0,0,.1)' : 'transparent',
+      headerShadow: s.scrolled ? '0 1px 4px rgba(0,0,0,.06)' : 'none',
+      logoH: s.isMobile ? '36px' : (s.scrolled ? '40px' : '52px'),
+      heroOverlap: layout === 'overlap', heroSplit: layout === 'split',
+      platePos: s.isMobile ? 'relative' : 'absolute',
+      platePadX: s.isMobile ? '0' : 'clamp(24px,5vw,80px)',
+      services: [
+        { num: '01', icon: ICONS.factory, title: 'Food Manufacturers', desc: 'Kosher certification for food manufacturers and producers, from single lines to multi-site operations.' },
+        { num: '02', icon: ICONS.utensils, title: 'Restaurants & Food Service', desc: 'Reliable certification and ongoing kosher supervision for restaurants, caterers, and institutional kitchens.' },
+        { num: '03', icon: ICONS.leaf, title: 'Ingredients', desc: 'Certification for ingredients and raw materials used by food manufacturers.' },
+        { num: '04', icon: ICONS.tag, title: 'Private Label & Brands', desc: 'Kosher certification solutions for growing consumer brands and co-packed products.' },
+      ],
+      tabs: tabs.map((t, i) => ({ label: t, onClick: () => this.setState({ tab: i, searched: '' }), border: i === s.tab ? '#0D0D0D' : 'transparent', color: i === s.tab ? '#0D0D0D' : '#5E5A53' })),
+      searchPlaceholder: ['Search establishments by name, city, or type', 'Search products by name, brand, or UPC', 'Search certified companies'][s.tab],
+      onSearch: (e) => { e.preventDefault(); this.setState({ searched: e.target.q.value.trim() }); },
+      embedTitle: s.searched ? `Results for “${s.searched}” will appear here` : `${tabs[s.tab]} search will load here`,
+      filters: cats.map((c) => { const on = c === s.filter; return { label: c, onClick: () => this.setState({ filter: c }), bg: on ? '#0D0D0D' : 'transparent', color: on ? '#F2EEE6' : '#2A2A2A', border: on ? '#0D0D0D' : 'rgba(0,0,0,.18)' }; }),
+      alertCols: s.isMobile ? 'minmax(0,1fr)' : 'minmax(140px,200px) minmax(0,1fr) auto',
+      alertLinkJustify: s.isMobile ? 'start' : 'end',
+      alerts: ALERTS.filter((a) => s.filter === 'All' || a.category === s.filter),
+      brands: [
+        { name: 'BRAND LOGO', font: "'DM Sans',sans-serif", size: '18px', ls: '.2em' },
+        { name: 'Sample Foods', font: "'Cormorant Garamond',serif", size: '28px', ls: '0' },
+        { name: 'EXAMPLE MARKET', font: "'DM Mono',monospace", size: '14px', ls: '.14em' },
+        { name: 'Sample Bakery', font: "'Cormorant Garamond',serif", size: '26px', ls: '.02em' },
+        { name: 'DEMO DAIRY', font: "'DM Sans',sans-serif", size: '20px', ls: '.06em' },
+        { name: 'Brand Logo', font: "'Cormorant Garamond',serif", size: '28px', ls: '0' },
+        { name: 'SAMPLE & CO.', font: "'DM Mono',monospace", size: '15px', ls: '.1em' },
+        { name: 'EXAMPLE PANTRY', font: "'DM Sans',sans-serif", size: '16px', ls: '.16em' },
+      ],
+      pillars: ['Education', 'Communication', 'Certification'],
+      articles: [
+        { cat: 'Kosher Basics', title: 'Understanding kosher certification', desc: 'A straightforward introduction to kosher certification.' },
+        { cat: 'Certification Information', title: 'What to expect from a KVH inspection', desc: 'How supervision works, from the first visit to ongoing review.' },
+        { cat: 'Consumer Resources', title: 'Reading kosher symbols and designations', desc: 'Dairy, meat, pareve, and what the letters beside a symbol mean.' },
+        { cat: 'Business Resources', title: 'Preparing your facility for certification', desc: 'Ingredients, equipment, and documentation to have ready.' },
+      ],
+      faqs: FAQS.map((f, i) => ({ ...f, open: s.faqOpen === i, sign: s.faqOpen === i ? '–' : '+', toggle: () => this.setState({ faqOpen: s.faqOpen === i ? -1 : i }) })),
+      benefits: [
+        { n: '01', t: 'Wider distribution', d: 'Access retailers, distributors, and food service buyers who require kosher certification.' },
+        { n: '02', t: 'Consumer confidence', d: 'A recognised symbol that signals rigorous, independent supervision.' },
+        { n: '03', t: 'A clear process', d: 'Defined steps, a dedicated contact, and straightforward communication throughout.' },
+      ],
+      contactLines: [
+        { k: 'Certification', v: 'New applications & existing clients' },
+        { k: 'Consumers', v: 'Product questions & concerns' },
+        { k: 'General', v: 'Media, education & partnerships' },
+      ],
+      submitted: s.submitted, showForm: !s.submitted, errors: s.errors,
+      onSubmit: (e) => { e.preventDefault(); const errors = this.validate(e.target); this.setState({ errors, submitted: Object.keys(errors).length === 0 }); },
+      resetForm: () => this.setState({ submitted: false, errors: {} }),
+      footerCols: [
+        { title: 'KVH', links: [{ label: 'About', href: '#about' }, { label: 'Certification', href: '#certification' }, { label: 'Contact', href: '#contact' }] },
+        { title: 'Resources', links: [{ label: 'Kosher Basics', href: '#resources' }, { label: 'FAQs', href: '#faq' }, { label: 'Consumer Resources', href: '#resources' }, { label: 'Business Resources', href: '#resources' }] },
+        { title: 'Search', links: [{ label: 'Find an Establishment', href: '#search' }, { label: 'Find a Product', href: '#search' }, { label: 'Kosher Alerts', href: '#alerts' }] },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>
