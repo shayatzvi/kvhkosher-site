@@ -19,40 +19,143 @@ a:hover{color:#0B1F44}
 input,select,textarea,button{font-family:inherit}
 .kvh-burger{display:none!important}
 @media (max-width:979px){.kvh-nav,.kvh-find{display:none!important}.kvh-burger{display:inline-flex!important}.kvh-logo{height:34px!important}}
+@media (max-width:1319px){.kvh-lg{display:none!important}}
+@media (max-width:1099px){.kvh-md{display:none!important}}
+@media (max-width:979px){.kvh-mega{display:none!important}}
+
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 </style>
 </helmet>
 
-<header style="position:sticky;top:0;z-index:50;background:#FFFFFF;border-bottom:1px solid rgba(11,23,48,.08)">
+<header onMouseLeave="{{ closeMega }}" onKeyDown="{{ onHeaderKey }}" style="position:sticky;top:0;z-index:50;background:#FFFFFF;border-bottom:1px solid rgba(11,23,48,.08)">
   <div style="max-width:1320px;margin:0 auto;padding:18px clamp(20px,4vw,48px);display:flex;align-items:center;gap:40px">
     <a href="index.html" aria-label="KVH Kosher home" style="display:block;flex:none;line-height:0">
       <img class="kvh-logo" src="assets/kvh-logo.png" alt="KVH Kosher, Education, Communication, Certification" style="display:block;height:46px;width:auto;mix-blend-mode:multiply">
     </a>
-    <nav class="kvh-nav" style="display:flex;gap:28px;flex:1;font-size:16px">
-      <sc-for list="{{ nav }}" as="n" hint-placeholder-count="5">
-        <a href="index.html" style="color:#14213D;padding:8px 0;border-bottom:2px solid transparent" style-hover="color:#1D4F9C;border-bottom-color:#1D4F9C">{{ n }}</a>
-      </sc-for>
-    </nav>
-    <a class="kvh-find" href="Product-Search.dc.html" style="flex:none;border:1.5px solid #1D4F9C;color:#1D4F9C;font-size:16px;font-weight:500;padding:11px 18px;border-radius:4px" style-hover="background:#1D4F9C;color:#FFFFFF">Find a Product</a>
+    <nav class="kvh-nav" aria-label="Main" style="display:flex;gap:clamp(20px,2.2vw,32px);flex:1;font-size:16px">
+        <sc-for list="{{ topNav }}" as="t" hint-placeholder-count="5">
+          <sc-if value="{{ t.mega }}" hint-placeholder-val="{{ true }}">
+            <button type="button" onMouseEnter="{{ t.enter }}" onClick="{{ t.toggle }}" aria-expanded="{{ t.open }}" style="display:inline-flex;align-items:center;gap:8px;background:none;border:none;border-bottom:2px solid {{ t.border }};border-radius:0;padding:8px 0;font-size:16px;color:{{ t.color }};cursor:pointer;white-space:nowrap;transition:color .2s ease,border-color .2s ease">{{ t.label }}<span aria-hidden="true" style="display:inline-flex;transition:transform .25s ease;transform:{{ t.caretTr }}"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg></span></button>
+          </sc-if>
+          <sc-if value="{{ t.plain }}" hint-placeholder-val="{{ false }}">
+            <a class="{{ t.cls }}" href="{{ t.href }}" onMouseEnter="{{ t.enter }}" style="color:#14213D;padding:8px 0;border-bottom:2px solid transparent;white-space:nowrap;transition:color .2s ease,border-color .2s ease" style-hover="color:#1D4F9C;border-bottom-color:#1D4F9C">{{ t.label }}</a>
+          </sc-if>
+        </sc-for>
+      </nav>
+      <a class="kvh-find kvh-lg" href="Product-Search.dc.html" onMouseEnter="{{ closeMega }}" style="flex:none;border:1.5px solid #1D4F9C;color:#1D4F9C;font-size:16px;font-weight:500;padding:12px 18px;border-radius:4px;white-space:nowrap;transition:all .2s ease" style-hover="background:#1D4F9C;color:#FFFFFF">Find a Product</a>
+      <a class="kvh-find" href="Apply.dc.html" onMouseEnter="{{ closeMega }}" style="flex:none;background:#1D4F9C;color:#FFFFFF;font-size:16px;font-weight:600;padding:14px 24px;border-radius:4px;white-space:nowrap;transition:background .2s ease" style-hover="background:#0B1F44;color:#FFFFFF">Apply for Certification</a>
     <button class="kvh-burger" onClick="{{ toggleMenu }}" aria-label="Menu" aria-expanded="{{ menuOpen }}" style="margin-left:auto;height:48px;padding:0 18px;background:#FFFFFF;border:1.5px solid #1D4F9C;border-radius:4px;cursor:pointer;font-size:15px;font-weight:500;color:#1D4F9C;display:inline-flex;align-items:center;gap:10px"><span aria-hidden="true" style="position:relative;display:block;width:18px;height:14px;flex:none">
           <span style="position:absolute;left:0;width:18px;height:2px;border-radius:1px;background:currentColor;transition:top .3s ease,transform .3s ease;top:{{ bar1Top }};transform:{{ bar1Tr }}"></span>
           <span style="position:absolute;left:0;top:6px;width:18px;height:2px;border-radius:1px;background:currentColor;transition:opacity .2s ease,transform .3s ease;opacity:{{ bar2Op }};transform:{{ bar2Tr }}"></span>
           <span style="position:absolute;left:0;width:18px;height:2px;border-radius:1px;background:currentColor;transition:top .3s ease,transform .3s ease;top:{{ bar3Top }};transform:{{ bar3Tr }}"></span>
         </span><span>{{ menuLabel }}</span></button>
   </div>
-  <div style="display:grid;grid-template-rows:{{ panelRows }};visibility:{{ panelVis }};transition:grid-template-rows .38s cubic-bezier(.2,.7,.2,1),visibility .38s"><div style="overflow:hidden;min-height:0">
+  <div style="position:absolute;left:0;right:0;top:100%;visibility:{{ panelVis }};clip-path:{{ panelClip }};transition:clip-path .38s cubic-bezier(.2,.7,.2,1),visibility .38s;box-shadow:0 24px 40px rgba(11,31,68,.18)"><div style="max-height:calc(100vh - 84px);overflow-y:auto;overscroll-behavior:contain;background:#FFFFFF">
     <nav style="border-top:1px solid rgba(11,23,48,.08);background:#FFFFFF;padding:8px clamp(20px,4vw,48px) 24px;display:flex;flex-direction:column">
-      <sc-for list="{{ navM }}" as="n" hint-placeholder-count="5">
-        <a href="index.html" style="font-size:20px;font-weight:500;padding:16px 0;border-bottom:1px solid rgba(11,23,48,.08);color:#14213D;opacity:{{ n.op }};transform:{{ n.tr }};transition:opacity .35s ease {{ n.delay }},transform .35s ease {{ n.delay }}">{{ n.label }}</a>
+      <sc-for list="{{ mobNav }}" as="g" hint-placeholder-count="5">
+        <div style="border-bottom:1px solid rgba(11,23,48,.08);opacity:{{ g.op }};transform:{{ g.tr }};transition:opacity .35s ease {{ g.delay }},transform .35s ease {{ g.delay }}">
+          <sc-if value="{{ g.isLink }}" hint-placeholder-val="{{ false }}">
+            <a href="{{ g.href }}" style="display:block;font-size:20px;font-weight:500;padding:16px 0;color:#14213D">{{ g.label }}</a>
+          </sc-if>
+          <sc-if value="{{ g.isGroup }}" hint-placeholder-val="{{ true }}">
+            <button type="button" onClick="{{ g.toggle }}" aria-expanded="{{ g.open }}" style="width:100%;display:flex;justify-content:space-between;align-items:center;gap:16px;background:none;border:none;padding:16px 0;font-size:20px;font-weight:500;color:#14213D;text-align:left;cursor:pointer">{{ g.label }}<span aria-hidden="true" style="display:inline-flex;color:#1D4F9C;transition:transform .3s ease;transform:{{ g.caretTr }}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg></span></button>
+            <div style="display:grid;grid-template-rows:{{ g.rows }};visibility:{{ g.vis }};transition:grid-template-rows .32s cubic-bezier(.2,.7,.2,1),visibility .32s">
+              <div style="overflow:hidden;min-height:0">
+                <div style="display:flex;flex-direction:column;gap:8px;padding:4px 0 12px">
+                  <sc-for list="{{ g.blocks }}" as="b" hint-placeholder-count="2">
+                    <a href="{{ b.href }}" style="display:block;text-align:center;background:{{ b.bg }};color:#FFFFFF;font-weight:600;font-size:17px;padding:16px 20px;border-radius:4px">{{ b.label }}</a>
+                  </sc-for>
+                </div>
+                <div style="padding:0 0 12px 4px;display:flex;flex-direction:column">
+                  <sc-for list="{{ g.links }}" as="l" hint-placeholder-count="5">
+                    <a href="{{ l.href }}" style="display:block;padding:12px 0;font-size:17px;color:#42506B;border-top:1px solid rgba(11,23,48,.06)">{{ l.label }}</a>
+                  </sc-for>
+                </div>
+              </div>
+            </div>
+          </sc-if>
+        </div>
       </sc-for>
       <a href="Product-Search.dc.html" style="margin-top:20px;background:#1D4F9C;color:#FFFFFF;font-weight:500;padding:16px 20px;border-radius:4px;text-align:center">Find a Certified Product</a>
+      <a href="Apply.dc.html" style="margin-top:12px;border:1.5px solid #1D4F9C;color:#1D4F9C;font-weight:600;padding:14.5px 20px;border-radius:4px;text-align:center">Apply for Certification</a>
     </nav>
   </div></div>
+
+  <div class="kvh-mega" aria-hidden="true" style="position:absolute;left:0;right:0;top:100%;height:100vh;background:rgba(6,16,38,.4);pointer-events:none;opacity:{{ ovOp }};visibility:{{ ovVis }};transition:opacity .22s ease,visibility .22s"></div>
+  <div class="kvh-mega" style="position:absolute;left:0;right:0;top:100%;background:#FFFFFF;border-top:1px solid rgba(11,23,48,.08);box-shadow:0 28px 56px rgba(11,31,68,.22);opacity:{{ mBiz.op }};visibility:{{ mBiz.vis }};transform:{{ mBiz.tr }};transition:opacity .22s ease,transform .22s ease,visibility .22s">
+    <div style="max-width:1320px;margin:0 auto;padding:36px clamp(20px,4vw,48px) 44px;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr) minmax(0,1fr);gap:0 clamp(28px,4vw,64px);align-items:start">
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div style="background:#0B1F44;color:#FFFFFF;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px 24px;padding:30px 32px;min-height:118px;box-sizing:border-box">
+          <span style="font-family:'Figtree',sans-serif;font-size:26px;font-weight:500;line-height:1.15;letter-spacing:-.01em">Getting certified</span>
+          <a href="Apply.dc.html" onClick="{{ closeMega }}" style="border:1.5px solid #FFFFFF;color:#FFFFFF;font-weight:600;font-size:16px;padding:14px 22px;border-radius:4px;white-space:nowrap;transition:all .2s ease" style-hover="background:#FFFFFF;color:#0B1F44">Apply for Certification</a>
+        </div>
+        <div style="background:#1D4F9C;color:#FFFFFF;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px 24px;padding:30px 32px;min-height:118px;box-sizing:border-box">
+          <span style="font-family:'Figtree',sans-serif;font-size:26px;font-weight:500;line-height:1.15;letter-spacing:-.01em">Why KVH?</span>
+          <a href="index.html" onClick="{{ closeMega }}" style="border:1.5px solid #FFFFFF;color:#FFFFFF;font-weight:600;font-size:16px;padding:14px 22px;border-radius:4px;white-space:nowrap;transition:all .2s ease" style-hover="background:#FFFFFF;color:#0B1F44">Our standard</a>
+        </div>
+        <a href="index.html" onClick="{{ closeMega }}" style="display:inline-flex;align-items:center;gap:8px;margin-top:10px;font-size:17px;font-weight:600;color:#1D4F9C" style-hover="color:#0B1F44">Talk to our team <span style="font-size:20px">›</span></a>
+      </div>
+      <div style="padding-top:6px">
+        <div style="font-family:'Figtree',sans-serif;font-size:22px;font-weight:600;letter-spacing:-.01em;margin-bottom:12px;color:#0B1730">Certification</div>
+        <a href="index.html" onClick="{{ closeMega }}" style="display:block;padding:11px 0;font-size:17px;color:#14213D;transition:color .15s ease,transform .15s ease" style-hover="color:#1D4F9C;transform:translateX(4px)">Food manufacturers</a><a href="index.html" onClick="{{ closeMega }}" style="display:block;padding:11px 0;font-size:17px;color:#14213D;transition:color .15s ease,transform .15s ease" style-hover="color:#1D4F9C;transform:translateX(4px)">Restaurants and food service</a><a href="index.html" onClick="{{ closeMega }}" style="display:block;padding:11px 0;font-size:17px;color:#14213D;transition:color .15s ease,transform .15s ease" style-hover="color:#1D4F9C;transform:translateX(4px)">Ingredients</a><a href="index.html" onClick="{{ closeMega }}" style="display:block;padding:11px 0;font-size:17px;color:#14213D;transition:color .15s ease,transform .15s ease" style-hover="color:#1D4F9C;transform:translateX(4px)">Private label and brands</a>
+      </div>
+      <div style="background:#EAF0FA;padding:28px 32px 24px">
+        <div style="font-family:'Figtree',sans-serif;font-size:22px;font-weight:600;letter-spacing:-.01em;margin-bottom:12px;color:#1D4F9C">Business resources</div>
+        <a href="index.html" onClick="{{ closeMega }}" style="display:block;padding:11px 0;font-size:17px;color:#14213D;transition:color .15s ease,transform .15s ease" style-hover="color:#1D4F9C;transform:translateX(4px)">Preparing your facility</a><a href="index.html" onClick="{{ closeMega }}" style="display:block;padding:11px 0;font-size:17px;color:#14213D;transition:color .15s ease,transform .15s ease" style-hover="color:#1D4F9C;transform:translateX(4px)">Understanding certification</a><a href="index.html" onClick="{{ closeMega }}" style="display:block;padding:11px 0;font-size:17px;color:#14213D;transition:color .15s ease,transform .15s ease" style-hover="color:#1D4F9C;transform:translateX(4px)">Frequently asked questions</a><a href="index.html" onClick="{{ closeMega }}" style="display:block;padding:11px 0;font-size:17px;color:#14213D;transition:color .15s ease,transform .15s ease" style-hover="color:#1D4F9C;transform:translateX(4px)">Request information</a>
+      </div>
+    </div>
+  </div>
+  <div class="kvh-mega" style="position:absolute;left:0;right:0;top:100%;background:#FFFFFF;border-top:1px solid rgba(11,23,48,.08);box-shadow:0 28px 56px rgba(11,31,68,.22);opacity:{{ mCons.op }};visibility:{{ mCons.vis }};transform:{{ mCons.tr }};transition:opacity .22s ease,transform .22s ease,visibility .22s">
+    <div style="max-width:1320px;margin:0 auto;padding:36px clamp(20px,4vw,48px) 44px;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr) minmax(0,1fr);gap:0 clamp(28px,4vw,64px);align-items:start">
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div style="background:#0B1F44;color:#FFFFFF;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px 24px;padding:30px 32px;min-height:118px;box-sizing:border-box">
+          <span style="font-family:'Figtree',sans-serif;font-size:26px;font-weight:500;line-height:1.15;letter-spacing:-.01em">Is it KVH certified?</span>
+          <a href="Product-Search.dc.html" onClick="{{ closeMega }}" style="border:1.5px solid #FFFFFF;color:#FFFFFF;font-weight:600;font-size:16px;padding:14px 22px;border-radius:4px;white-space:nowrap;transition:all .2s ease" style-hover="background:#FFFFFF;color:#0B1F44">Search products</a>
+        </div>
+        <div style="background:#1D4F9C;color:#FFFFFF;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px 24px;padding:30px 32px;min-height:118px;box-sizing:border-box">
+          <span style="font-family:'Figtree',sans-serif;font-size:26px;font-weight:500;line-height:1.15;letter-spacing:-.01em">Latest alert</span>
+          <a href="Kosher-Alert.dc.html" onClick="{{ closeMega }}" style="border:1.5px solid #FFFFFF;color:#FFFFFF;font-weight:600;font-size:16px;padding:14px 22px;border-radius:4px;white-space:nowrap;transition:all .2s ease" style-hover="background:#FFFFFF;color:#0B1F44">Read it</a>
+        </div>
+        <a href="index.html" onClick="{{ closeMega }}" style="display:inline-flex;align-items:center;gap:8px;margin-top:10px;font-size:17px;font-weight:600;color:#1D4F9C" style-hover="color:#0B1F44">Report a kosher concern <span style="font-size:20px">›</span></a>
+      </div>
+      <div style="padding-top:6px">
+        <div style="font-family:'Figtree',sans-serif;font-size:22px;font-weight:600;letter-spacing:-.01em;margin-bottom:12px;color:#0B1730">Learn</div>
+        <a href="index.html" onClick="{{ closeMega }}" style="display:block;padding:11px 0;font-size:17px;color:#14213D;transition:color .15s ease,transform .15s ease" style-hover="color:#1D4F9C;transform:translateX(4px)">Kosher basics</a><a href="index.html" onClick="{{ closeMega }}" style="display:block;padding:11px 0;font-size:17px;color:#14213D;transition:color .15s ease,transform .15s ease" style-hover="color:#1D4F9C;transform:translateX(4px)">Reading kosher symbols</a><a href="index.html" onClick="{{ closeMega }}" style="display:block;padding:11px 0;font-size:17px;color:#14213D;transition:color .15s ease,transform .15s ease" style-hover="color:#1D4F9C;transform:translateX(4px)">Consumer resources</a><a href="index.html" onClick="{{ closeMega }}" style="display:block;padding:11px 0;font-size:17px;color:#14213D;transition:color .15s ease,transform .15s ease" style-hover="color:#1D4F9C;transform:translateX(4px)">Frequently asked questions</a>
+      </div>
+      <div style="background:#EAF0FA;padding:28px 32px 24px">
+        <div style="font-family:'Figtree',sans-serif;font-size:22px;font-weight:600;letter-spacing:-.01em;margin-bottom:12px;color:#1D4F9C">Quick links</div>
+        <a href="Product-Search.dc.html" onClick="{{ closeMega }}" style="display:block;padding:11px 0;font-size:17px;color:#14213D;transition:color .15s ease,transform .15s ease" style-hover="color:#1D4F9C;transform:translateX(4px)">Search products and establishments</a><a href="index.html" onClick="{{ closeMega }}" style="display:block;padding:11px 0;font-size:17px;color:#14213D;transition:color .15s ease,transform .15s ease" style-hover="color:#1D4F9C;transform:translateX(4px)">Kosher Alerts</a><a href="index.html" onClick="{{ closeMega }}" style="display:block;padding:11px 0;font-size:17px;color:#14213D;transition:color .15s ease,transform .15s ease" style-hover="color:#1D4F9C;transform:translateX(4px)">Contact KVH</a>
+      </div>
+    </div>
+  </div>
+  <div class="kvh-mega" style="position:absolute;left:0;right:0;top:100%;background:#FFFFFF;border-top:1px solid rgba(11,23,48,.08);box-shadow:0 28px 56px rgba(11,31,68,.22);opacity:{{ mAbout.op }};visibility:{{ mAbout.vis }};transform:{{ mAbout.tr }};transition:opacity .22s ease,transform .22s ease,visibility .22s">
+    <div style="max-width:1320px;margin:0 auto;padding:36px clamp(20px,4vw,48px) 44px;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr) minmax(0,1fr);gap:0 clamp(28px,4vw,64px);align-items:start">
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div style="background:#0B1F44;color:#FFFFFF;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px 24px;padding:30px 32px;min-height:118px;box-sizing:border-box">
+          <span style="font-family:'Figtree',sans-serif;font-size:26px;font-weight:500;line-height:1.15;letter-spacing:-.01em">A trusted standard of kashrut</span>
+          <a href="index.html" onClick="{{ closeMega }}" style="border:1.5px solid #FFFFFF;color:#FFFFFF;font-weight:600;font-size:16px;padding:14px 22px;border-radius:4px;white-space:nowrap;transition:all .2s ease" style-hover="background:#FFFFFF;color:#0B1F44">About KVH</a>
+        </div>
+        <div style="background:#1D4F9C;color:#FFFFFF;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px 24px;padding:30px 32px;min-height:118px;box-sizing:border-box">
+          <span style="font-family:'Figtree',sans-serif;font-size:26px;font-weight:500;line-height:1.15;letter-spacing:-.01em">Questions?</span>
+          <a href="index.html" onClick="{{ closeMega }}" style="border:1.5px solid #FFFFFF;color:#FFFFFF;font-weight:600;font-size:16px;padding:14px 22px;border-radius:4px;white-space:nowrap;transition:all .2s ease" style-hover="background:#FFFFFF;color:#0B1F44">Contact us</a>
+        </div>
+        <a href="Apply.dc.html" onClick="{{ closeMega }}" style="display:inline-flex;align-items:center;gap:8px;margin-top:10px;font-size:17px;font-weight:600;color:#1D4F9C" style-hover="color:#0B1F44">Apply for certification <span style="font-size:20px">›</span></a>
+      </div>
+      <div style="padding-top:6px">
+        <div style="font-family:'Figtree',sans-serif;font-size:22px;font-weight:600;letter-spacing:-.01em;margin-bottom:12px;color:#0B1730">What we do</div>
+        <a href="Team.dc.html" onClick="{{ closeMega }}" style="display:block;padding:11px 0;font-size:17px;color:#14213D;transition:color .15s ease,transform .15s ease" style-hover="color:#1D4F9C;transform:translateX(4px)">Meet our team</a><a href="https://kvhweb.org/mashgiach_applications/new?public=1" target="_blank" rel="noopener" onClick="{{ closeMega }}" style="display:block;padding:11px 0;font-size:17px;color:#14213D;transition:color .15s ease,transform .15s ease" style-hover="color:#1D4F9C;transform:translateX(4px)">Join the team</a><a href="index.html" onClick="{{ closeMega }}" style="display:block;padding:11px 0;font-size:17px;color:#14213D;transition:color .15s ease,transform .15s ease" style-hover="color:#1D4F9C;transform:translateX(4px)">Education</a><a href="index.html" onClick="{{ closeMega }}" style="display:block;padding:11px 0;font-size:17px;color:#14213D;transition:color .15s ease,transform .15s ease" style-hover="color:#1D4F9C;transform:translateX(4px)">Communication</a><a href="index.html" onClick="{{ closeMega }}" style="display:block;padding:11px 0;font-size:17px;color:#14213D;transition:color .15s ease,transform .15s ease" style-hover="color:#1D4F9C;transform:translateX(4px)">Certification</a>
+      </div>
+      <div style="background:#EAF0FA;padding:28px 32px 24px">
+        <div style="font-family:'Figtree',sans-serif;font-size:22px;font-weight:600;letter-spacing:-.01em;margin-bottom:12px;color:#1D4F9C">Latest from KVH</div>
+        <a href="Kosher-Alert.dc.html" onClick="{{ closeMega }}" style="display:block;padding:11px 0;font-size:17px;color:#14213D;transition:color .15s ease,transform .15s ease" style-hover="color:#1D4F9C;transform:translateX(4px)">Important kosher certification notice</a><a href="index.html" onClick="{{ closeMega }}" style="display:block;padding:11px 0;font-size:17px;color:#14213D;transition:color .15s ease,transform .15s ease" style-hover="color:#1D4F9C;transform:translateX(4px)">All Kosher Alerts</a>
+      </div>
+    </div>
+  </div>
 </header>
 
 <main>
 <article style="max-width:1280px;margin:0 auto;padding:clamp(32px,5vw,64px) clamp(20px,4vw,48px) clamp(64px,8vw,112px);display:flex;flex-wrap:wrap;gap:48px clamp(32px,5vw,80px);align-items:flex-start">
-  <div style="flex:999 1 560px;min-width:0">
+  <div style="flex:1 1 560px;min-width:0;max-width:820px">
     <a href="index.html" style="display:inline-block;font-size:15px;font-weight:600;margin-bottom:28px" style-hover="text-decoration:underline">← All Kosher Alerts</a>
     <div style="display:flex;gap:10px;align-items:center;font-size:14px;color:#42506B;margin-bottom:16px">
       <span>Oct 7, 2026</span>
@@ -86,18 +189,27 @@ input,select,textarea,button{font-family:inherit}
     </div>
   </div>
 
-  <aside style="flex:1 1 280px;min-width:0">
-    <h2 style="font-family:'Figtree',sans-serif;font-weight:600;font-size:20px;margin:0 0 4px;padding-top:14px;border-top:2px solid #0B1F44">More alerts</h2>
-    <div style="display:flex;flex-direction:column">
+</article>
+
+<section style="background:#F3F6FC;padding:clamp(48px,7vw,96px) clamp(20px,4vw,48px)">
+  <div style="max-width:1280px;margin:0 auto">
+    <h2 style="font-family:'Figtree',sans-serif;font-weight:500;font-size:clamp(30px,4vw,48px);letter-spacing:-.02em;line-height:1.05;margin:0 0 32px">More Kosher Alerts</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:24px">
       <sc-for list="{{ more }}" as="m" hint-placeholder-count="3">
-        <a href="Kosher-Alert.dc.html" style="display:flex;flex-direction:column;gap:6px;padding:18px 0;border-bottom:1px solid rgba(11,23,48,.14);color:#0B1730" style-hover="color:#1D4F9C">
-          <span style="font-size:14px;color:#42506B">{{ m.date }} · <span style="font-weight:600;color:{{ m.catColor }}">{{ m.category }}</span></span>
-          <span style="font-size:17px;font-weight:600;line-height:1.3">{{ m.title }}</span>
+        <a href="Kosher-Alert.dc.html" style="display:flex;flex-direction:column;background:#FFFFFF;border:1px solid rgba(11,23,48,.12);border-radius:8px;overflow:hidden;color:#0B1730;transition:transform .25s ease,box-shadow .25s ease" style-hover="transform:translateY(-4px);box-shadow:0 16px 40px rgba(11,31,68,.14);color:#0B1730">
+          <div style="aspect-ratio:16/10;background:#E3ECFA;overflow:hidden">
+            <img src="assets/photo-facility.png" alt="" style="width:100%;height:100%;object-fit:cover;object-position:60% 30%;display:block">
+          </div>
+          <div style="padding:22px 24px 26px;display:flex;flex-direction:column;gap:10px;flex:1">
+            <span style="font-size:14px;color:#42506B">{{ m.date }} · <span style="font-weight:600;color:{{ m.catColor }}">{{ m.category }}</span></span>
+            <span style="font-family:'Figtree',sans-serif;font-size:21px;font-weight:600;line-height:1.25;text-wrap:balance">{{ m.title }}</span>
+            <span style="margin-top:auto;padding-top:6px;font-size:15px;font-weight:600;color:#1D4F9C">Read more →</span>
+          </div>
         </a>
       </sc-for>
     </div>
-  </aside>
-</article>
+  </div>
+</section>
 </main>
 
 <footer>
@@ -111,13 +223,37 @@ input,select,textarea,button{font-family:inherit}
 </footer>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props='{}'>
+const NAVLIST = [
+  { label: 'About KVH', href: 'index.html' }, { label: 'Our Team', href: 'Team.dc.html' }, { label: 'Certification', href: 'index.html' },
+  { label: 'Kosher Alerts', href: 'index.html' }, { label: 'Resources', href: 'index.html' }, { label: 'Contact', href: 'index.html' },
+];
 class Component extends DCLogic {
-  state = { menuOpen: false };
+  state = { mega: null, mobOpen: null, menuOpen: false };
   renderVals() {
+    const mg = this.state.mega;
+    const TOP = [{ key: 'biz', label: 'For Businesses' }, { key: 'cons', label: 'For Consumers' }, { key: 'about', label: 'About' }, { key: null, label: 'Kosher Alerts', href: 'index.html', cls: 'kvh-md' }, { key: null, label: 'Contact', href: 'index.html', cls: '' }];
+    const mv = (k) => ({ op: mg === k ? 1 : 0, vis: mg === k ? 'visible' : 'hidden', tr: mg === k ? 'none' : 'translateY(-8px)' });
+    const mUrl = (a) => 'index.html';
+    const mOpenKey = this.state.mobOpen, mMenuOpen = this.state.menuOpen;
+    const mGroups = [
+      { label: 'For Businesses', blocks: [{ label: 'Apply for Certification', href: 'Apply.dc.html', bg: '#0B1F44' }, { label: 'Our standard', href: mUrl('about'), bg: '#1D4F9C' }],
+        links: [{ label: 'Food manufacturers', href: mUrl('certification') }, { label: 'Restaurants and food service', href: mUrl('certification') }, { label: 'Ingredients', href: mUrl('certification') }, { label: 'Private label and brands', href: mUrl('certification') }, { label: 'Preparing your facility', href: mUrl('resources') }, { label: 'Understanding certification', href: mUrl('resources') }, { label: 'Frequently asked questions', href: mUrl('faq') }, { label: 'Talk to our team', href: mUrl('contact') }] },
+      { label: 'For Consumers', blocks: [{ label: 'Search products', href: 'Product-Search.dc.html', bg: '#0B1F44' }, { label: 'Latest alert', href: 'Kosher-Alert.dc.html', bg: '#1D4F9C' }],
+        links: [{ label: 'Kosher basics', href: mUrl('resources') }, { label: 'Reading kosher symbols', href: mUrl('resources') }, { label: 'Consumer resources', href: mUrl('resources') }, { label: 'Frequently asked questions', href: mUrl('faq') }, { label: 'Kosher Alerts', href: mUrl('alerts') }, { label: 'Report a kosher concern', href: mUrl('contact') }] },
+      { label: 'About', blocks: [{ label: 'About KVH', href: mUrl('about'), bg: '#0B1F44' }, { label: 'Contact us', href: mUrl('contact'), bg: '#1D4F9C' }],
+        links: [{ label: 'Meet our team', href: 'Team.dc.html' }, { label: 'Join the team', href: 'https://kvhweb.org/mashgiach_applications/new?public=1' }, { label: 'Education', href: mUrl('about') }, { label: 'Communication', href: mUrl('about') }, { label: 'Certification', href: mUrl('certification') }, { label: 'All Kosher Alerts', href: mUrl('alerts') }] },
+      { label: 'Kosher Alerts', href: mUrl('alerts') },
+      { label: 'Contact', href: mUrl('contact') },
+    ];
     return {
-      menuOpen: this.state.menuOpen, panelRows: this.state.menuOpen ? '1fr' : '0fr', panelVis: this.state.menuOpen ? 'visible' : 'hidden',
+      mobNav: mGroups.map((g, i) => { const open = mOpenKey === g.label; return { ...g, isGroup: !!g.blocks, isLink: !g.blocks, open, caretTr: open ? 'rotate(180deg)' : 'none', rows: open ? '1fr' : '0fr', vis: open ? 'visible' : 'hidden', toggle: () => this.setState({ mobOpen: open ? null : g.label }), op: mMenuOpen ? 1 : 0, tr: mMenuOpen ? 'none' : 'translateY(-10px)', delay: (0.06 + i * 0.05) + 's' }; }),
+      topNav: TOP.map((t) => ({ label: t.label, href: t.href, cls: t.cls, mega: !!t.key, plain: !t.key, open: mg === t.key, color: mg === t.key ? '#1D4F9C' : '#14213D', border: mg === t.key ? '#1D4F9C' : 'transparent', caretTr: mg === t.key ? 'rotate(180deg)' : 'none', enter: () => this.setState({ mega: t.key }), toggle: () => this.setState({ mega: mg === t.key ? null : t.key }) })),
+      closeMega: () => this.setState({ mega: null }),
+      onHeaderKey: (e) => { if (e.key === 'Escape') this.setState({ mega: null }); },
+      mBiz: mv('biz'), mCons: mv('cons'), mAbout: mv('about'), ovOp: mg ? 1 : 0, ovVis: mg ? 'visible' : 'hidden',
+      menuOpen: this.state.menuOpen, panelRows: this.state.menuOpen ? '1fr' : '0fr', panelVis: this.state.menuOpen ? 'visible' : 'hidden', panelClip: this.state.menuOpen ? 'inset(0 0 -60px 0)' : 'inset(0 0 100% 0)',
       bar1Top: this.state.menuOpen ? '6px' : '0px', bar1Tr: this.state.menuOpen ? 'rotate(45deg)' : 'none', bar2Op: this.state.menuOpen ? 0 : 1, bar2Tr: this.state.menuOpen ? 'scaleX(0)' : 'none', bar3Top: this.state.menuOpen ? '6px' : '12px', bar3Tr: this.state.menuOpen ? 'rotate(-45deg)' : 'none',
-      navM: ['About KVH', 'Certification', 'Kosher Alerts', 'Resources', 'Contact'].map((n, i) => ({ ...(typeof n === 'string' ? { label: n } : n), op: this.state.menuOpen ? 1 : 0, tr: this.state.menuOpen ? 'none' : 'translateY(-10px)', delay: (0.06 + i * 0.05) + 's' })), menuLabel: this.state.menuOpen ? 'Close' : 'Menu', toggleMenu: () => this.setState({ menuOpen: !this.state.menuOpen }),
+      navM: NAVLIST.map((n, i) => ({ label: n.label, href: n.href, op: this.state.menuOpen ? 1 : 0, tr: this.state.menuOpen ? 'none' : 'translateY(-10px)', delay: (0.06 + i * 0.05) + 's' })), menuLabel: this.state.menuOpen ? 'Close' : 'Menu', toggleMenu: () => this.setState({ menuOpen: !this.state.menuOpen }),
       nav: ['About KVH', 'Certification', 'Kosher Alerts', 'Resources', 'Contact'],
       details: [
         { k: 'Product / establishment', v: '[Name]' },

@@ -11,6 +11,7 @@ Anything left out is listed below.
 - `KVH Kosher.dc.html`
 - `Kosher-Alert.dc.html`
 - `Product-Search.dc.html`
+- `Team.dc.html`
 - `assets/brands/bonapita.png`
 - `assets/brands/brandeis.png`
 - `assets/brands/butcherie.png`
@@ -25,6 +26,12 @@ Anything left out is listed below.
 - `assets/brands/zatar.png`
 - `assets/kvh-logo.png`
 - `assets/photo-facility.png`
+- `assets/team/blumberg.png`
+- `assets/team/delmoor.png`
+- `assets/team/kaufman.png`
+- `assets/team/krems.png`
+- `assets/team/rappoport.png`
+- `assets/team/solomon.png`
 - `image-slot.js`
 - `support.js`
 - `uploads/pasted-1791411982386-0.png`
